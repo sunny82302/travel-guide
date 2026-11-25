@@ -6,17 +6,23 @@
     <title>BSH 出差 SOP 互動指引助手</title>
     <style>
         :root {
-            --primary-color: #0056b3;
-            --primary-hover: #004085;
-            --secondary-color: #f8f9fa;
+            --primary-color: #F26A3D;
+            --primary-hover: #d95529;
+            --primary-light: #fff4f0;
+            --primary-border: #fbc4b2;
+            --dark-grey: #2d3136;
+            --text-main: #33373d;
+            --text-muted: #5f6672;
+            --bg-page: #f5f6f8;
+            --secondary-color: #fafafa;
             --accent-color: #d97706;
             --border-radius: 8px;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f3f4f6;
-            color: #333;
+            background-color: var(--bg-page);
+            color: var(--text-main);
             line-height: 1.6;
             margin: 0;
             padding: 15px;
@@ -28,17 +34,36 @@
             margin: 0 auto;
             background: #ffffff;
             border-radius: var(--border-radius);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            padding: 20px;
+            box-shadow: 0 4px 18px rgba(45, 49, 54, 0.08);
+            border-top: 5px solid var(--primary-color);
+            padding: 22px;
         }
 
         h1 {
-            color: var(--primary-color);
+            color: var(--dark-grey);
             text-align: center;
-            margin-bottom: 20px;
+            margin-top: 4px;
+            margin-bottom: 22px;
             border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 12px;
+            padding-bottom: 14px;
             font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        h1 .brand-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            font-size: 0.85rem;
+            padding: 2px 9px;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-right: 6px;
+            font-weight: 700;
+        }
+
+        h3, h4 {
+            color: var(--dark-grey);
         }
 
         .step-container {
@@ -49,7 +74,7 @@
             font-weight: bold;
             font-size: 1rem;
             margin-bottom: 10px;
-            color: #1f2937;
+            color: var(--dark-grey);
         }
 
         .btn-group {
@@ -63,9 +88,9 @@
             flex: 1 1 calc(50% - 8px);
             min-width: 120px;
             padding: 12px 10px;
-            border: 2px solid #e5e7eb;
-            background-color: #fff;
-            color: #374151;
+            border: 2px solid #e2e5e9;
+            background-color: #ffffff;
+            color: var(--dark-grey);
             font-weight: bold;
             border-radius: var(--border-radius);
             cursor: pointer;
@@ -77,43 +102,67 @@
             -webkit-user-select: none;
         }
 
+        .btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
         .btn:active, .btn.active {
             border-color: var(--primary-color);
             background-color: var(--primary-color);
-            color: #fff;
+            color: #ffffff;
         }
 
         .card {
             background-color: var(--secondary-color);
+            border: 1px solid #e5e7eb;
             border-left: 5px solid var(--primary-color);
-            padding: 15px;
+            padding: 16px;
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
             margin-top: 15px;
         }
 
         .warning-card {
-            background-color: #fffbeeb;
+            background-color: #fffbeb;
             border-left: 5px solid var(--accent-color);
             padding: 12px;
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
             margin-bottom: 15px;
             font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .emergency-card {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 5px solid #dc2626;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-size: 0.88rem;
+            color: #7f1d1d;
         }
 
         .notice-box {
-            background-color: #eff6ff;
-            border: 1px dashed #3b82f6;
+            background-color: var(--primary-light);
+            border: 1px dashed var(--primary-color);
             padding: 10px 12px;
             border-radius: 6px;
             margin: 10px 0;
             font-size: 0.9rem;
-            color: #1e40af;
+            color: var(--dark-grey);
+        }
+
+        .notice-box strong {
+            color: #c2410c;
         }
 
         .path-info {
-            background-color: #eef2ff;
-            color: #3730a3;
-            padding: 3px 6px;
+            background-color: #f1f3f5;
+            color: var(--dark-grey);
+            border: 1px solid #dcdfe4;
+            padding: 2px 6px;
             border-radius: 4px;
             font-family: monospace;
             font-size: 0.85rem;
@@ -122,45 +171,53 @@
 
         .template-box {
             background: #ffffff;
-            border: 1px dashed #cbd5e1;
+            border: 1px dashed #9ca3af;
             padding: 12px;
             border-radius: 6px;
             margin: 10px 0;
             position: relative;
             font-size: 0.85rem;
             white-space: pre-wrap;
+            color: var(--text-main);
         }
 
         .copy-btn {
             position: absolute;
             top: 8px;
             right: 8px;
-            background: #e2e8f0;
+            background: var(--dark-grey);
+            color: #ffffff;
             border: none;
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.75rem;
             font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-color);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 10px 0;
-            background: #fff;
+            background: #ffffff;
             font-size: 0.85rem;
         }
 
         th, td {
-            border: 1px solid #cbd5e1;
-            padding: 6px 8px;
+            border: 1px solid #d1d5db;
+            padding: 7px 8px;
             text-align: center;
         }
 
         th {
-            background-color: #e2e8f0;
-            color: #1e293b;
+            background-color: var(--dark-grey);
+            color: #ffffff;
+            font-weight: 600;
         }
 
         ul, ol {
@@ -175,27 +232,36 @@
         a {
             color: var(--primary-color);
             text-decoration: underline;
-            font-weight: 500;
+            font-weight: 600;
+        }
+
+        a:hover {
+            color: var(--primary-hover);
         }
 
         .reset-btn {
             display: block;
             width: 100%;
             margin-top: 20px;
-            background-color: #9ca3af;
-            color: white;
+            background-color: var(--dark-grey);
+            color: #ffffff;
             border: none;
             padding: 12px;
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: bold;
             font-size: 0.95rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .reset-btn:hover {
+            background-color: #1f2226;
         }
 
         .calc-box {
             background: #ffffff;
-            border: 1px solid #cbd5e1;
-            padding: 12px;
+            border: 1px solid #d1d5db;
+            padding: 14px;
             border-radius: 8px;
             margin-top: 12px;
         }
@@ -212,6 +278,7 @@
         .calc-row label {
             font-weight: bold;
             font-size: 0.9rem;
+            color: var(--dark-grey);
         }
 
         .calc-row select, .calc-row input {
@@ -219,81 +286,83 @@
             border: 1px solid #cbd5e1;
             border-radius: 4px;
             font-size: 0.9rem;
+            color: var(--text-main);
         }
 
         .calc-result {
-            background: #eef2ff;
-            color: #1e40af;
+            background: var(--primary-light);
+            border: 1px solid var(--primary-border);
+            color: var(--primary-hover);
             font-weight: bold;
-            font-size: 1rem;
-            padding: 10px;
+            font-size: 1.05rem;
+            padding: 11px;
             border-radius: 6px;
             text-align: center;
             margin-top: 10px;
         }
 
-        .boarding-pass-diagram {
-            width: 220px;
-            height: 300px;
-            background: #ffffff;
-            border: 2px dashed #94a3b8;
-            margin: 10px auto;
-            position: relative;
-            padding: 10px;
-            box-sizing: border-box;
+        .form-card table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        .form-card th, .form-card td { border: 1px solid #4b5563; padding: 7px 9px; font-size: 13px; text-align: left; }
+        .form-card th { background-color: #f3f4f6; width: 28%; font-weight: bold; color: var(--dark-grey); }
+        .form-card th.section-banner { background-color: var(--dark-grey); color: #ffffff; text-align: center; }
+        .form-card th.sub-banner { background-color: var(--primary-light); color: var(--primary-hover); }
+        .form-card input[type="text"], .form-card input[type="date"], .form-card input[type="email"], .form-card select, .form-card textarea {
+            width: 100%; padding: 5px 6px; border: 1px solid #9ca3af; border-radius: 3px; box-sizing: border-box; font-size: 13px; font-family: inherit; color: var(--text-main);
         }
-        .a4-label {
-            position: absolute;
-            bottom: 5px;
-            right: 8px;
-            font-size: 0.7rem;
-            color: #94a3b8;
-            font-weight: bold;
-        }
-        .ticket-stub-left {
-            width: 140px;
-            height: 60px;
-            background: #f1f5f9;
-            border: 1px solid #64748b;
-            margin-bottom: 12px;
-            border-radius: 4px;
-            padding: 5px;
-            font-size: 0.65rem;
-            color: #334155;
-            position: relative;
-        }
-        .glue-point-left {
-            position: absolute;
-            top: 50%;
-            left: -10px;
-            transform: translateY(-50%) rotate(-90deg);
-            background: #fde047;
-            color: #854d0e;
-            font-size: 0.55rem;
-            padding: 1px 4px;
-            border-radius: 6px;
-            font-weight: bold;
+        .form-card input:focus, .form-card select:focus {
+            outline: none;
+            border-color: var(--primary-color);
         }
 
-        .transfer-form-card table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-        .transfer-form-card th, .transfer-form-card td { border: 1px solid #333; padding: 6px 8px; font-size: 12px; text-align: left; }
-        .transfer-form-card th { background-color: #f0f0f0; width: 25%; font-weight: bold; }
-        .transfer-form-card input[type="text"], .transfer-form-card input[type="date"], .transfer-form-card select { width: 100%; padding: 4px; border: 1px solid #aaa; border-radius: 3px; box-sizing: border-box; font-size: 12px; }
-        .print-btn { background-color: #10b981; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem; width: 100%; }
+        .print-btn {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+        .print-btn:hover { background-color: var(--primary-hover); }
+
+        .sub-action-btn {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            padding: 9px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.88rem;
+            display: inline-block;
+            margin-top: 6px;
+            transition: background-color 0.2s ease;
+        }
+        .sub-action-btn:hover { background-color: var(--primary-hover); }
+
+        .print-only-header { display: none; }
 
         @media print {
-            .btn-group, .step-container, h1, .reset-btn, .warning-card, .notice-box, .btn-container, .print-btn, .copy-btn, .template-box { display: none !important; }
-            body { background-color: #fff; padding: 0; margin: 0; }
+            .no-print, .btn-group, .step-container, h1, .reset-btn, .warning-card, .emergency-card, .notice-box, .btn-container, .print-btn, .sub-action-btn, .copy-btn, .template-box, .hide-on-print { display: none !important; }
+            body { background-color: #ffffff; padding: 0; margin: 0; color: #000000; }
             .container { box-shadow: none; border: none; padding: 0; max-width: 100%; }
-            .card { border: none; padding: 0; background: transparent; }
-            input, select { border: none !important; background: transparent !important; appearance: none; -webkit-appearance: none; }
+            .card { border: none; padding: 0; background: transparent; margin: 0; }
+            .print-only-header { display: block !important; text-align: center; border-bottom: 2px solid #F26A3D; padding-bottom: 8px; margin-bottom: 14px; }
+            .form-card th { background-color: #f3f4f6 !important; color: #111827 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .form-card th.section-banner { background-color: #2d3136 !important; color: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .form-card th.sub-banner { background-color: #fff4f0 !important; color: #c2410c !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            input, select, textarea { border: none !important; background: transparent !important; appearance: none; -webkit-appearance: none; padding: 0 !important; color: #000000 !important; }
+            textarea { resize: none; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>✈️ BSH 出差互動指引系統</h1>
+    <h1><span class="brand-badge">BSH</span>出差互動指引系統</h1>
 
     <!-- 步驟一：選擇出差類型 -->
     <div class="step-container" id="type-select">
@@ -301,6 +370,7 @@
         <div class="btn-group">
             <button class="btn" id="btn-domestic">國內出差</button>
             <button class="btn" id="btn-overseas">海外出差</button>
+            <button class="btn" id="btn-traveler-profile">📝 旅客訂位建檔表 (PDF)</button>
             <button class="btn" id="btn-transfer">🚘 預約機場接送</button>
             <button class="btn" id="btn-allowance">💰 差旅津貼試算</button>
             <button class="btn" id="btn-visa">🪪 辦理台胞證</button>
@@ -332,7 +402,7 @@
         </div>
         <div class="step-title">步驟 2：您目前處於出差的哪一個階段？</div>
         <div class="btn-group">
-            <button class="btn" onclick="showOverseasResult('flight')">1. 機票與飯店預訂</button>
+            <button class="btn" onclick="showOverseasResult('flight')">1. 機票與飯店預訂 (金龍旅行社)</button>
             <button class="btn" onclick="showOverseasResult('wf')">2. 提交出差申請單 & 開票</button>
             <button class="btn" onclick="showOverseasResult('transfer_stage')">3. 預約專車機場接送</button>
             <button class="btn" onclick="showOverseasResult('after')">4. 返國費用核銷</button>
@@ -355,10 +425,10 @@
 </div>
 
 <script>
-    // 手機/電腦雙重事件監聽绑定
     document.addEventListener('DOMContentLoaded', function() {
         bindClick('btn-domestic', function() { selectType('domestic'); });
         bindClick('btn-overseas', function() { selectType('overseas'); });
+        bindClick('btn-traveler-profile', function() { selectType('traveler-profile'); });
         bindClick('btn-transfer', function() { selectType('transfer'); });
         bindClick('btn-allowance', function() { selectType('allowance'); });
         bindClick('btn-visa', function() { selectType('visa'); });
@@ -391,6 +461,9 @@
         } else if (type === 'overseas') {
             document.getElementById('btn-overseas').classList.add('active');
             document.getElementById('overseas-options').style.display = 'block';
+        } else if (type === 'traveler-profile') {
+            document.getElementById('btn-traveler-profile').classList.add('active');
+            showTravelerProfileForm();
         } else if (type === 'transfer') {
             document.getElementById('btn-transfer').classList.add('active');
             showTransferForm();
@@ -404,7 +477,7 @@
     }
 
     function copyToClipboard(elementId) {
-        var text = document.getElementById(elementId).innerText;
+        var text = document.getElementById(elementId).innerText.replace('複製範本', '').trim();
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(text).then(function() { alert('內容已複製！'); });
         } else {
@@ -433,13 +506,129 @@
         }
     }
 
+    function showTravelerProfileForm() {
+        var resultDiv = document.getElementById('result-area');
+        resultDiv.style.display = 'block';
+
+        resultDiv.innerHTML = `
+            <div class="card form-card">
+                <div class="print-only-header">
+                    <h2 style="margin:0; color:#2d3136;">博西家用電器股份有限公司 (BSH Home Appliances)</h2>
+                    <p style="margin:4px 0 0; font-size:14px; font-weight:bold; color:#F26A3D;">商務差旅旅客訂位建檔表 (Traveler Profile Form - 金龍永盛旅行社專用)</p>
+                </div>
+
+                <h3 class="no-print">📝 旅客訂位建檔所需資訊填寫表（金龍永盛旅行社）</h3>
+                <div class="notice-box">
+                    <strong>📌 使用說明：</strong><br>
+                    為利後續訂票與差旅管理，請於線上填妥下方資料後，點擊橘色按鈕<strong>「列印 / 另存為 PDF 附件」</strong>，隨同機票詢價信件寄送給金龍旅行社（<span class="path-info">GTC.TeamB@dragontr.com.tw</span>）。<br>
+                    • <strong>入境中國大陸</strong>：請務必填寫台胞證資料（或附上台胞證掃描檔）。<br>
+                    • <strong>入境美國</strong>：請務必填寫護照相關資訊（或附上護照影本）。
+                </div>
+
+                <table>
+                    <tr>
+                        <th colspan="4" class="section-banner">一、旅客基本聯絡資訊（必填）</th>
+                    </tr>
+                    <tr>
+                        <th>公司名稱</th>
+                        <td colspan="3"><input type="text" value="博西家用電器股份有限公司 BSH Home Appliances Pte. Ltd."></td>
+                    </tr>
+                    <tr>
+                        <th>中文姓名</th>
+                        <td><input type="text" placeholder="請填寫中文全名"></td>
+                        <th>護照英文姓名</th>
+                        <td><input type="text" placeholder="須與護照完全一致，例：WANG, DA-MING"></td>
+                    </tr>
+                    <tr>
+                        <th>出差者手機號碼</th>
+                        <td><input type="text" placeholder="例：0912-345-678"></td>
+                        <th>出差者 Email</th>
+                        <td><input type="email" placeholder="例：Name@bshg.com"></td>
+                    </tr>
+                    <tr>
+                        <th>性別 / 出生年月日</th>
+                        <td><input type="text" placeholder="例：男 / 1990-01-01（供核對證件用）"></td>
+                        <th>國籍</th>
+                        <td><input type="text" value="TAIWAN (R.O.C.)"></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="4" class="section-banner">二、常用航空公司會員資訊（選填）</th>
+                    </tr>
+                    <tr>
+                        <th>航空公司 1</th>
+                        <td><input type="text" placeholder="例：長榮航空 EVA Air"></td>
+                        <th>會員卡號 1</th>
+                        <td><input type="text" placeholder="請輸入會員卡號"></td>
+                    </tr>
+                    <tr>
+                        <th>航空公司 2</th>
+                        <td><input type="text" placeholder="例：中華航空 China Airlines"></td>
+                        <th>會員卡號 2</th>
+                        <td><input type="text" placeholder="請輸入會員卡號"></td>
+                    </tr>
+                    <tr>
+                        <th>座位 / 餐食偏好</th>
+                        <td colspan="3"><input type="text" placeholder="例：走道位 / 靠窗位 / 無特殊餐食需求"></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="4" class="section-banner">三、證件資料（依目的地填寫或隨信附上掃描檔）</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" class="sub-banner">🇺🇸 入境美國／國際航班必填：護照資訊（或隨信附護照影本）</th>
+                    </tr>
+                    <tr>
+                        <th>護照號碼</th>
+                        <td><input type="text" placeholder="請輸入護照號碼"></td>
+                        <th>護照效期截止日</th>
+                        <td><input type="date"></td>
+                    </tr>
+                    <tr>
+                        <th>發照日期</th>
+                        <td><input type="date"></td>
+                        <th>發照地 / 簽發國</th>
+                        <td><input type="text" value="TAIWAN"></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" class="sub-banner">🇨🇳 入境中國大陸必填：台胞證資料（或隨信附台胞證掃描檔）</th>
+                    </tr>
+                    <tr>
+                        <th>台胞證號碼</th>
+                        <td><input type="text" placeholder="8碼台胞證號"></td>
+                        <th>台胞證效期截止日</th>
+                        <td><input type="date"></td>
+                    </tr>
+                    <tr>
+                        <th>備註 / 隨信附件勾選</th>
+                        <td colspan="3">
+                            <label><input type="checkbox"> 隨信附上護照影本掃描檔</label> &nbsp;&nbsp;
+                            <label><input type="checkbox"> 隨信附上台胞證掃描檔</label>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="text-align:center; margin: 15px 0;" class="no-print">
+                    <button class="print-btn" onclick="window.print()">🖨️ 列印表單 / 另存為 PDF 附件（附於詢價信）</button>
+                </div>
+            </div>
+        `;
+    }
+
     function showTransferForm() {
         var resultDiv = document.getElementById('result-area');
         resultDiv.style.display = 'block';
 
         resultDiv.innerHTML = `
-            <div class="card transfer-form-card">
-                <h3>🚘 客利達小客車租賃有限公司 機場接送服務預約單</h3>
+            <div class="card form-card">
+                <div class="print-only-header">
+                    <h2 style="margin:0; color:#2d3136;">客利達小客車租賃有限公司 機場接送服務預約單</h2>
+                </div>
+                <h3 class="no-print">🚘 客利達小客車租賃有限公司 機場接送服務預約單</h3>
                 <div class="notice-box">
                     <strong>📌 預約注意事項：</strong><br>
                     • 送機時間：建議填寫「起飛前 3 小時」。<br>
@@ -462,8 +651,8 @@
 
                 <table>
                     <tr>
-                        <th colspan="2" style="text-align:center; background-color:#e2e8f0;">行程 1（送機 / 接機）</th>
-                        <th colspan="2" style="text-align:center; background-color:#e2e8f0;">行程 2（回程 / 備用）</th>
+                        <th colspan="2" class="section-banner">行程 1（送機 / 接機）</th>
+                        <th colspan="2" class="section-banner">行程 2（回程 / 備用）</th>
                     </tr>
                     <tr>
                         <th>接送地址</th>
@@ -522,7 +711,7 @@
                     </tr>
                 </table>
 
-                <div style="text-align:center; margin: 15px 0;">
+                <div style="text-align:center; margin: 15px 0;" class="no-print">
                     <button class="print-btn" onclick="window.print()">🖨️ 列印表單 / 存為 PDF 附件</button>
                 </div>
 
@@ -611,30 +800,54 @@
                         <li>備用管道：BSH CRC 平台；香港或南京可聯繫當地 Admin（香港窗口：<a href="mailto:Alman.Li@bshg.com">Alman.Li@bshg.com</a>）。</li>
                     </ul>
 
-                    <h4>✈️ 2. 機票報價（歐美亞旅行社）</h4>
+                    <h4>✈️ 2. 機票報價（金龍永盛旅行社 Grand Travel - Team B｜2026/12/1 起啟用）</h4>
                     <ul>
-                        <li>發送 Email 報價：收件人 <span class="path-info">tw.travel@amexgbt.com</span>，副本 (cc) Sunny。</li>
+                        <li><strong>專責窗口 Email：</strong> <span class="path-info">GTC.TeamB@dragontr.com.tw</span>（寄信時請務必副本 cc Sunny）。</li>
+                        <li><strong>服務時間與電話：</strong> 週一至週五 09:00 - 18:00｜TEL：(02) 2714-8889｜FAX：(02) 2718-0733</li>
+                        <li><strong>地址：</strong> 台北市松山區(105)復興北路167號13樓</li>
+                        <li><strong>客戶服務主管（意見反饋專線）：</strong> 邱佳鳳 Ms. Louisa Chiu｜Tel：(02) 2714-8968｜Email：<span class="path-info">louisa-chiu@dragontr.com.tw</span></li>
                         <li>💡 <strong>金額預算建議：</strong> 預算建議抓高 NT$3,000 Buffer。</li>
-                        <li>💡 <i>首次出差：</i> 需至 <span class="path-info">Z:\\General\\EWC\\出差相關</span> 下載填寫「Traveler Profile Form - BSH」。</li>
+                        <li>💡 <strong>訂位建檔所需資訊：</strong> 請填寫「旅客訂位建檔表」並另存為 PDF 附在詢價信內（或提供護照／台胞證掃描檔）：<br>
+                            <button class="sub-action-btn" onclick="selectType('traveler-profile')">📝 點此填寫「旅客訂位建檔表」並存成 PDF</button>
+                        </li>
                     </ul>
+
+                    <div class="notice-box">
+                        <strong>📋 金龍旅行社訂票作業流程：</strong><br>
+                        1. 同仁以 Email 提供初步出差需求（尚未訂位）<br>
+                        2. 旅行社提供合適航班選擇與報價<br>
+                        3. 同仁確認預訂並提供旅客建檔資料（可附 PDF 建檔表／證件影本）<br>
+                        4. 旅行社回覆機位狀況、開票期限及相關入境／簽證提醒<br>
+                        5. 待公司出差單核准並確認開票後，進行正式開票作業<br>
+                        6. 旅行社提供電子機票及電子收據
+                    </div>
+
+                    <div class="emergency-card">
+                        <strong>🚨 非上班時間緊急服務（僅限 3 天 / 72 小時內出發之緊急事件）：</strong><br>
+                        • <strong>服務時段：</strong> 週一至週五 18:00 - 09:00、週六／日及國定假日 24 小時（非緊急事件請於上班時間聯繫）<br>
+                        • <strong>緊急專線：</strong> 0988-157-972（+886-988-157-972）<br>
+                        • <strong>LINE ID：</strong> <code>@dragontr-emer</code> ｜ <strong>WeChat ID：</strong> <code>grand-corp</code><br>
+                        • ⚠️ <strong>重要提醒：</strong> 若透過 LINE / WeChat 文字訊息聯繫後 <strong>3 分鐘內未收到回覆</strong>，請務必改以 <strong>LINE 或 WeChat 語音通話功能直接撥打</strong>，確保緊急需求即時處理。
+                    </div>
 
                     <div class="template-box" id="flight-email-template">
 <button class="copy-btn" onclick="copyToClipboard('flight-email-template')">複製範本</button>
-<strong>【信件範本 - 機票詢價】</strong>
-收件人：tw.travel@amexgbt.com
+<strong>【信件範本 - 機票詢價（寄給金龍旅行社）】</strong>
+收件人：GTC.TeamB@dragontr.com.tw
 副本 (cc)：Sunny
-主旨：[機票詢價] 姓名 - 出差地點 (日期)
+主旨：[機票詢價] 博西家電 BSH - 姓名 - 出差地點 (日期)
 
-親愛的 Travel Consultant，
+親愛的金龍旅行社 Team B，
 
-您好，請協助報價以下出差行程之機票：
+您好，請協助報價以下出差行程之航班：
 - 中文姓名：
 - 護照英文名：
+- 手機號碼：
 - 出差地點：
-- 出差日期：
-- 備註需求：
+- 出差日期與偏好時段：
+- 備註需求（如艙等、直飛/轉機）：
 
-(若為首次出差，已附上 Traveler Profile Form)
+（隨信附上「旅客訂位建檔表 PDF」／證件資料，供後續訂位建檔使用）
 謝謝！
                     </div>
                 </div>
@@ -647,11 +860,11 @@
                         <li><strong>Power Platform 填寫申請單：</strong><br>
                         選擇 <code>台灣 Taiwan</code> -> <code>Human Resources</code> -> <code>出差申請表 Travel Application</code>。
                         </li>
-                        <li><strong>準備附件：</strong> 機票/住宿報價 Email、邀請函、Travel Security 證明。</li>
+                        <li><strong>準備附件：</strong> 金龍旅行社機票報價 Email、住宿報價、邀請函、Travel Security 證明。</li>
                     </ol>
                     <div class="notice-box">
                         <strong>✈️ 【重要】開票作業說明：</strong><br>
-                        表單送簽時系統會<strong>自動 Inform Sunny</strong>。審核通過後同仁<strong>無需再轉寄信件</strong>，將由 Sunny 統一連繫開票。
+                        表單送簽時系統會<strong>自動 Inform Sunny</strong>。審核通過後同仁<strong>無需再轉寄信件</strong>，將由 Sunny 統一連繫金龍旅行社開票。
                     </div>
                 </div>
             `;
@@ -697,7 +910,7 @@
                 </table>
 
                 <div class="calc-box">
-                    <h4 style="margin-top:0; color:var(--primary-color);">🧮 津貼動態試算工具</h4>
+                    <h4 style="margin-top:0; color:var(--dark-grey);">🧮 津貼動態試算工具</h4>
                     <div class="calc-row">
                         <label for="calc-region">1. 出差地區：</label>
                         <select id="calc-region" onchange="calculateAllowance()">
@@ -785,12 +998,12 @@
 
         resultDiv.innerHTML = `
             <div class="card">
-                <h3>🪪 台胞證申請須知 (歐美亞代辦)</h3>
+                <h3>🪪 台胞證申請須知 (金龍永盛旅行社代辦)</h3>
                 <div class="notice-box">
-                    <strong>🚚 文件寄送：</strong> 打包信封註明「給 Team B」，發 Email 給 tw.travel@amexgbt.com 安排快遞收件。
+                    <strong>🚚 窗口聯繫與文件寄送：</strong> 打包信封註明「給 Team B（博西家電 BSH）」，發 Email 給 <span class="path-info">GTC.TeamB@dragontr.com.tw</span>（副本 cc Sunny）安排收件／代辦。
                 </div>
 
-                <h4>💰 費用與天數 (五年效期)</h4>
+                <h4>💰 費用與天數 (五年效期參考)</h4>
                 <table>
                     <thead><tr><th>類別</th><th>工作天</th><th>換領/新辦</th><th>遺失/污損</th></tr></thead>
                     <tbody>
