@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BSH 出差 SOP 互動指引助手</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --primary-hover: #004085;
+            --secondary-color: #f8f9fa;
+            --accent-color: #d97706;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 15px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 12px;
+            font-size: 1.5rem;
+        }
+
+        .step-container {
+            margin-bottom: 20px;
+        }
+
+        .step-title {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            flex: 1 1 calc(50% - 8px);
+            min-width: 120px;
+            padding: 12px 10px;
+            border: 2px solid #e5e7eb;
+            background-color: #fff;
+            color: #374151;
+            font-weight: bold;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .btn:active, .btn.active {
+            border-color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin-top: 15px;
+        }
+
+        .warning-card {
+            background-color: #fffbeeb;
+            border-left: 5px solid var(--accent-color);
+            padding: 12px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .notice-box {
+            background-color: #eff6ff;
+            border: 1px dashed #3b82f6;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #1e40af;
+        }
+
+        .path-info {
+            background-color: #eef2ff;
+            color: #3730a3;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+
+        .template-box {
+            background: #ffffff;
+            border: 1px dashed #cbd5e1;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            position: relative;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #e2e8f0;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            background: #fff;
+            font-size: 0.85rem;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 6px 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+
+        ul, ol {
+            padding-left: 18px;
+            margin: 8px 0;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .reset-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            background-color: #9ca3af;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .calc-box {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .calc-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .calc-row label {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .calc-row select, .calc-row input {
+            padding: 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .calc-result {
+            background: #eef2ff;
+            color: #1e40af;
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .boarding-pass-diagram {
+            width: 220px;
+            height: 300px;
+            background: #ffffff;
+            border: 2px dashed #94a3b8;
+            margin: 10px auto;
+            position: relative;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .a4-label {
+            position: absolute;
+            bottom: 5px;
+            right: 8px;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+        .ticket-stub-left {
+            width: 140px;
+            height: 60px;
+            background: #f1f5f9;
+            border: 1px solid #64748b;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            padding: 5px;
+            font-size: 0.65rem;
+            color: #334155;
+            position: relative;
+        }
+        .glue-point-left {
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            transform: translateY(-50%) rotate(-90deg);
+            background: #fde047;
+            color: #854d0e;
+            font-size: 0.55rem;
+            padding: 1px 4px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .transfer-form-card table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        .transfer-form-card th, .transfer-form-card td { border: 1px solid #333; padding: 6px 8px; font-size: 12px; text-align: left; }
+        .transfer-form-card th { background-color: #f0f0f0; width: 25%; font-weight: bold; }
+        .transfer-form-card input[type="text"], .transfer-form-card input[type="date"], .transfer-form-card select { width: 100%; padding: 4px; border: 1px solid #aaa; border-radius: 3px; box-sizing: border-box; font-size: 12px; }
+        .print-btn { background-color: #10b981; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem; width: 100%; }
+
+        @media print {
+            .btn-group, .step-container, h1, .reset-btn, .warning-card, .notice-box, .btn-container, .print-btn, .copy-btn, .template-box { display: none !important; }
+            body { background-color: #fff; padding: 0; margin: 0; }
+            .container { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+            .card { border: none; padding: 0; background: transparent; }
+            input, select { border: none !important; background: transparent !important; appearance: none; -webkit-appearance: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>✈️ BSH 出差互動指引系統</h1>
+
+    <!-- 步驟一：選擇出差類型 -->
+    <div class="step-container" id="type-select">
+        <div class="step-title">步驟 1：請問您本次需求是？</div>
+        <div class="btn-group">
+            <button class="btn" id="btn-domestic">國內出差</button>
+            <button class="btn" id="btn-overseas">海外出差</button>
+            <button class="btn" id="btn-transfer">🚘 預約機場接送</button>
+            <button class="btn" id="btn-allowance">💰 差旅津貼試算</button>
+            <button class="btn" id="btn-visa">🪪 辦理台胞證</button>
+        </div>
+    </div>
+
+    <!-- 步驟二（國內）：選住宿狀況 -->
+    <div class="step-container" id="domestic-options" style="display: none;">
+        <div class="notice-box">
+            <strong>📋 國內出差申請基本規範：</strong><br>
+            • <strong>需要過夜：</strong> 必須事先提出「出差申請單」，<strong>且「Power Platform」與「Apollo (考勤系統)」兩個系統皆需要申請</strong>，經主管核准後方可安排住宿。<br>
+            • <strong>當日來回：</strong> 無需填寫電子出差申請單，但需事先向部門主管口頭或 Email 知會出差地點與目的。
+        </div>
+        <div class="step-title">步驟 2：請選擇您的住宿需求與狀態</div>
+        <div class="btn-group">
+            <button class="btn" onclick="showDomesticResult('derhotel')">預訂 DER Hotel 夥伴飯店 (過夜)</button>
+            <button class="btn" onclick="showDomesticResult('special')">自行尋找住宿（DER滿房/價格過高）</button>
+            <button class="btn" onclick="showDomesticResult('oneday')">當日來回行程 (無需過夜)</button>
+        </div>
+    </div>
+
+    <!-- 步驟二（海外）：選擇執行階段 -->
+    <div class="step-container" id="overseas-options" style="display: none;">
+        <div class="warning-card">
+            <strong>🔒 全球 Travel Security 安全規範提醒：</strong><br>
+            出發前請先至 <a href="https://crisis24horizon.com" target="_blank">Crisis24 Horizon</a> 確認出差地風險等級：<br>
+            • <strong> Moderate 風險地區</strong>：須完成 Learning Hub 課程 <i>Travel Security Basics</i> (ID: LSO_60010737)，並於出差申請單附上有效證照。<br>
+            • <strong> High 以上地區</strong>：非極特殊必要需求，一律禁止前往。
+        </div>
+        <div class="step-title">步驟 2：您目前處於出差的哪一個階段？</div>
+        <div class="btn-group">
+            <button class="btn" onclick="showOverseasResult('flight')">1. 機票與飯店預訂</button>
+            <button class="btn" onclick="showOverseasResult('wf')">2. 提交出差申請單 & 開票</button>
+            <button class="btn" onclick="showOverseasResult('transfer_stage')">3. 預約專車機場接送</button>
+            <button class="btn" onclick="showOverseasResult('after')">4. 返國費用核銷</button>
+        </div>
+    </div>
+
+    <datalist id="address-options">
+        <option value="台北市內湖區洲子街80號 (BSH 總辦公室)">
+        <option value="台北市內湖區瑞光路258巷55號 (CS office)">
+        <option value="桃園國際機場第一航廈">
+        <option value="桃園國際機場第二航廈">
+        <option value="台北松山機場">
+        <option value="臺北市中山區敬業四路168號 (台北大直維多麗亞酒店)">
+        <option value="台北市中山區植福路200號 (台北大直英迪格酒店)">
+    </datalist>
+
+    <div id="result-area" style="display: none;"></div>
+
+    <button class="reset-btn" id="reset-btn" style="display: none;" onclick="resetForm()">🔄 重新選擇流程</button>
+</div>
+
+<script>
+    // 手機/電腦雙重事件監聽绑定
+    document.addEventListener('DOMContentLoaded', function() {
+        bindClick('btn-domestic', function() { selectType('domestic'); });
+        bindClick('btn-overseas', function() { selectType('overseas'); });
+        bindClick('btn-transfer', function() { selectType('transfer'); });
+        bindClick('btn-allowance', function() { selectType('allowance'); });
+        bindClick('btn-visa', function() { selectType('visa'); });
+    });
+
+    function bindClick(id, fn) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('click', fn);
+        }
+    }
+
+    function hideAll() {
+        document.getElementById('domestic-options').style.display = 'none';
+        document.getElementById('overseas-options').style.display = 'none';
+        document.getElementById('result-area').style.display = 'none';
+        document.getElementById('reset-btn').style.display = 'none';
+        var btns = document.querySelectorAll('.btn');
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].classList.remove('active');
+        }
+    }
+
+    function selectType(type) {
+        hideAll();
+        document.getElementById('reset-btn').style.display = 'block';
+        if (type === 'domestic') {
+            document.getElementById('btn-domestic').classList.add('active');
+            document.getElementById('domestic-options').style.display = 'block';
+        } else if (type === 'overseas') {
+            document.getElementById('btn-overseas').classList.add('active');
+            document.getElementById('overseas-options').style.display = 'block';
+        } else if (type === 'transfer') {
+            document.getElementById('btn-transfer').classList.add('active');
+            showTransferForm();
+        } else if (type === 'allowance') {
+            document.getElementById('btn-allowance').classList.add('active');
+            showAllowanceResult();
+        } else if (type === 'visa') {
+            document.getElementById('btn-visa').classList.add('active');
+            showVisaResult();
+        }
+    }
+
+    function copyToClipboard(elementId) {
+        var text = document.getElementById(elementId).innerText;
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(function() { alert('內容已複製！'); });
+        } else {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('內容已複製！');
+        }
+    }
+
+    function populateTimePicker() {
+        var selectBoxes = document.querySelectorAll('.time-picker');
+        var optionsHtml = '<option value="">選擇時間</option>';
+        for (var h = 0; h < 24; h++) {
+            for (var m = 0; m < 60; m += 10) {
+                var hourStr = h < 10 ? '0' + h : h;
+                var minStr = m < 10 ? '0' + m : m;
+                optionsHtml += '<option value="' + hourStr + ':' + minStr + '">' + hourStr + ':' + minStr + '</option>';
+            }
+        }
+        for (var i = 0; i < selectBoxes.length; i++) {
+            selectBoxes[i].innerHTML = optionsHtml;
+        }
+    }
+
+    function showTransferForm() {
+        var resultDiv = document.getElementById('result-area');
+        resultDiv.style.display = 'block';
+
+        resultDiv.innerHTML = `
+            <div class="card transfer-form-card">
+                <h3>🚘 客利達小客車租賃有限公司 機場接送服務預約單</h3>
+                <div class="notice-box">
+                    <strong>📌 預約注意事項：</strong><br>
+                    • 送機時間：建議填寫「起飛前 3 小時」。<br>
+                    • 接機時間：僅需填寫「航班抵達時間」。<br>
+                    • 司機聯絡資訊將於出發前一天簡訊通知。
+                </div>
+
+                <table>
+                    <tr>
+                        <th>公司名稱</th>
+                        <td colspan="3"><input type="text" value="博西家用電器股份有限公司 BSH Home Appliances Pte. Ltd."></td>
+                    </tr>
+                    <tr>
+                        <th>客戶姓名</th>
+                        <td><input type="text" placeholder="例如: Andreas Oswald"></td>
+                        <th>聯絡電話</th>
+                        <td><input type="text" placeholder="例如: 0972-xxx-xxx"></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="2" style="text-align:center; background-color:#e2e8f0;">行程 1（送機 / 接機）</th>
+                        <th colspan="2" style="text-align:center; background-color:#e2e8f0;">行程 2（回程 / 備用）</th>
+                    </tr>
+                    <tr>
+                        <th>接送地址</th>
+                        <td><input type="text" list="address-options" placeholder="輸入或選擇地點"></td>
+                        <th>接送地址</th>
+                        <td><input type="text" list="address-options" placeholder="輸入或選擇地點"></td>
+                    </tr>
+                    <tr>
+                        <th>停靠站</th>
+                        <td><input type="text" list="address-options" placeholder="目的地/停靠站"></td>
+                        <th>停靠站</th>
+                        <td><input type="text" list="address-options" placeholder="目的地/停靠站"></td>
+                    </tr>
+                    <tr>
+                        <th>日期/時間</th>
+                        <td>
+                            <input type="date" style="width:48%; display:inline-block;">
+                            <select style="width:48%; display:inline-block;" class="time-picker"></select>
+                        </td>
+                        <th>日期/時間</th>
+                        <td>
+                            <input type="date" style="width:48%; display:inline-block;">
+                            <select style="width:48%; display:inline-block;" class="time-picker"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>航班號碼</th>
+                        <td><input type="text" placeholder="例如: BR871"></td>
+                        <th>航班號碼</th>
+                        <td><input type="text" placeholder="例如: BR852"></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th>人數/行李</th>
+                        <td>
+                            人數：<input type="number" value="1" style="width:40px;"> 人 | 
+                            行李：<input type="number" value="1" style="width:40px;"> 件
+                        </td>
+                        <th>付款方式</th>
+                        <td>
+                            <select style="width:100%;">
+                                <option value="簽單" selected>簽單 (BSH 公司月結)</option>
+                                <option value="現金">現金</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>車種選擇</th>
+                        <td colspan="3">
+                            <label><input type="radio" name="car" checked> 2000CC</label> &nbsp;
+                            <label><input type="radio" name="car"> BENZ</label> &nbsp;
+                            <label><input type="radio" name="car"> 七人座</label>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="text-align:center; margin: 15px 0;">
+                    <button class="print-btn" onclick="window.print()">🖨️ 列印表單 / 存為 PDF 附件</button>
+                </div>
+
+                <div class="template-box" id="transfer-email-template">
+<button class="copy-btn" onclick="copyToClipboard('transfer-email-template')">複製範本</button>
+<strong>【信件範本 - 發送接送單給租車公司】</strong>
+收件人：clida@hotmail.com.tw
+副本 (cc)：Sunny
+主旨：[機場接送預約] 博西家電 BSH - 出差同仁姓名 (日期)
+
+親愛的客利達 Nora，
+
+您好，請協助安排以下機場接送服務，預約單如附件 PDF。
+
+- 乘車同仁：
+- 聯絡電話：
+- 接送日期/時間：
+- 航班號碼：
+
+再請協助回覆確認，謝謝！
+                </div>
+            </div>
+        `;
+        populateTimePicker();
+    }
+
+    function showDomesticResult(option) {
+        var resultDiv = document.getElementById('result-area');
+        resultDiv.style.display = 'block';
+
+        if (option === 'derhotel') {
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <h3>國內出差 - DER Hotel 預訂流程 (需過夜)</h3>
+                    <div class="notice-box">
+                        <strong>📌 提醒：過夜出差必須提交出差申請單（Power Platform 與 Apollo 考勤系統皆需申請）</strong><br>
+                        請務必使用公司信箱（<strong>@bshg.com</strong>）登入 DER Hotel 預訂。
+                    </div>
+                    <ol>
+                        <li><strong>飯店預訂：</strong> 請優先透過 <a href="https://obe.derhotel.com/store/hotel/search/live" target="_blank">DER Hotel 訂房系統</a> 預訂。</li>
+                        <li><strong>公司統編：</strong> 企業統編請輸入 <strong>53733783</strong>。</li>
+                        <li><strong>備用簽約清單：</strong> 可參考 <span class="path-info">Z:\\General\\EWC\\出差相關\\簽約旅館</span>。</li>
+                        <li><strong>送簽申請：</strong> 務必至 <strong>Power Platform</strong> 與 <strong>Apollo (考勤系統)</strong> 提交申請單。</li>
+                    </ol>
+                </div>
+            `;
+        } else if (option === 'special') {
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <h3>國內出差 - 特殊情況自行尋找住宿 (需過夜)</h3>
+                    <p>適用原因：DER Hotel 無合適飯店、價格過高或無空房。</p>
+                    <ol>
+                        <li>⚠️ <strong>主管同意：</strong> 透過 Email 取得主管書面同意。</li>
+                        <li>完成訂房並保留憑證。</li>
+                        <li><strong>送簽申請：</strong> 於 <strong>Power Platform</strong> 與 <strong>Apollo (考勤系統)</strong> 提交申請單並附上主管同意 Email。</li>
+                    </ol>
+                </div>
+            `;
+        } else if (option === 'oneday') {
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <h3>國內出差 - 當日來回流程 (無需過夜)</h3>
+                    <div class="notice-box">
+                        <strong>📌 當日來回申請規範：</strong> 依規定<strong>無需填寫電子出差申請單</strong>。
+                    </div>
+                    <ol>
+                        <li><strong>主管知會：</strong> 出發前口頭或 Email 知會主管地點與目的。</li>
+                        <li><strong>費用請款：</strong> 14 個工作天內檢附憑證至系統報銷。</li>
+                    </ol>
+                </div>
+            `;
+        }
+    }
+
+    function showOverseasResult(stage) {
+        var resultDiv = document.getElementById('result-area');
+        resultDiv.style.display = 'block';
+
+        if (stage === 'flight') {
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <h3>階段 1：機票與飯店預訂指引</h3>
+                    <h4>🏨 1. 住宿預訂（優先使用 DER Hotel）</h4>
+                    <ul>
+                        <li>請透過 <a href="https://obe.derhotel.com/store/hotel/search/live" target="_blank">DER Hotel 訂房網站</a> 預訂。</li>
+                        <li>備用管道：BSH CRC 平台；香港或南京可聯繫當地 Admin（香港窗口：<a href="mailto:Alman.Li@bshg.com">Alman.Li@bshg.com</a>）。</li>
+                    </ul>
+
+                    <h4>✈️ 2. 機票報價（歐美亞旅行社）</h4>
+                    <ul>
+                        <li>發送 Email 報價：收件人 <span class="path-info">tw.travel@amexgbt.com</span>，副本 (cc) Sunny。</li>
+                        <li>💡 <strong>金額預算建議：</strong> 預算建議抓高 NT$3,000 Buffer。</li>
+                        <li>💡 <i>首次出差：</i> 需至 <span class="path-info">Z:\\General\\EWC\\出差相關</span> 下載填寫「Traveler Profile Form - BSH」。</li>
+                    </ul>
+
+                    <div class="template-box" id="flight-email-template">
+<button class="copy-btn" onclick="copyToClipboard('flight-email-template')">複製範本</button>
+<strong>【信件範本 - 機票詢價】</strong>
+收件人：tw.travel@amexgbt.com
+副本 (cc)：Sunny
+主旨：[機票詢價] 姓名 - 出差地點 (日期)
+
+親愛的 Travel Consultant，
+
+您好，請協助報價以下出差行程之機票：
+- 中文姓名：
+- 護照英文名：
+- 出差地點：
+- 出差日期：
+- 備註需求：
+
+(若為首次出差，已附上 Traveler Profile Form)
+謝謝！
+                    </div>
+                </div>
+            `;
+        } else if (stage === 'wf') {
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <h3>階段 2：提交出差申請單 & 開票</h3>
+                    <ol>
+                        <li><strong>Power Platform 填寫申請單：</strong><br>
+                        選擇 <code>台灣 Taiwan</code> -> <code>Human Resources</code> -> <code>出差申請表 Travel Application</code>。
+                        </li>
+                        <li><strong>準備附件：</strong> 機票/住宿報價 Email、邀請函、Travel Security 證明。</li>
+                    </ol>
+                    <div class="notice-box">
+                        <strong>✈️ 【重要】開票作業說明：</strong><br>
+                        表單送簽時系統會<strong>自動 Inform Sunny</strong>。審核通過後同仁<strong>無需再轉寄信件</strong>，將由 Sunny 統一連繫開票。
+                    </div>
+                </div>
+            `;
+        } else if (stage === 'transfer_stage') {
+            showTransferForm();
+        } else if (stage === 'after') {
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <h3>階段 4：出差結束與費用報支（14 個工作天內）</h3>
+                    <ul>
+                        <li><strong>1. 登機證繳交：</strong> 紙本登機證請<strong>左側浮貼於 A4 紙</strong>；電子登機證請列印成 A4 格式繳交給 Sunny。</li>
+                        <li><strong>2. 請款匯率：</strong> 預設為台銀現金賣出匯率；若用實際匯率需附信用卡/水單證明。</li>
+                        <li><strong>3. 送洗費用：</strong> 出差滿 5 全天者，自第 4 晚起可申請必要送洗費。</li>
+                    </ul>
+                </div>
+            `;
+        }
+    }
+
+    function showAllowanceResult() {
+        var resultDiv = document.getElementById('result-area');
+        resultDiv.style.display = 'block';
+
+        resultDiv.innerHTML = `
+            <div class="card">
+                <h3>💰 2.11 海外差旅津貼規範與試算表 (Daily Allowance)</h3>
+                <div class="notice-box">
+                    • <strong>發放津貼無需檢附發票證明。</strong><br>
+                    • <strong>膳食基準：</strong> 早餐(-10%, 08:00前出發)、午餐(-30%, 13:00前出發)、晚餐(-30%, 19:00後返抵)。<br>
+                    • <strong>每日雜費 (30%)：</strong> 首尾日各領半額 (15%)。
+                </div>
+
+                <h4>📊 各地區每日津貼標準表 (TWD)</h4>
+                <table>
+                    <thead>
+                        <tr><th>地區</th><th>總額(100%)</th><th>雜費(30%)</th><th>早餐(10%)</th><th>午餐(30%)</th><th>晚餐(30%)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>第 1 區 (日韓中港澳星等)</td><td>$1,500</td><td>$450</td><td>$150</td><td>$450</td><td>$450</td></tr>
+                        <tr><td>第 2 區 (德美加法義紐澳等)</td><td>$1,800</td><td>$540</td><td>$180</td><td>$540</td><td>$540</td></tr>
+                        <tr><td>第 3 區 (英瑞荷丹挪芬等)</td><td>$2,300</td><td>$690</td><td>$230</td><td>$690</td><td>$690</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="calc-box">
+                    <h4 style="margin-top:0; color:var(--primary-color);">🧮 津貼動態試算工具</h4>
+                    <div class="calc-row">
+                        <label for="calc-region">1. 出差地區：</label>
+                        <select id="calc-region" onchange="calculateAllowance()">
+                            <option value="1500">第 1 區 ($1,500/天)</option>
+                            <option value="1800">第 2 區 ($1,800/天)</option>
+                            <option value="2300">第 3 區 ($2,300/天)</option>
+                        </select>
+                    </div>
+
+                    <div class="calc-row">
+                        <label for="calc-days">2. 總天數：</label>
+                        <input type="number" id="calc-days" value="5" min="1" max="60" style="width: 70px;" onchange="calculateAllowance()" oninput="calculateAllowance()">
+                    </div>
+
+                    <div class="calc-row">
+                        <label>3. 首尾日條件：</label>
+                        <div>
+                            <input type="checkbox" id="chk-dep-bf" checked onchange="calculateAllowance()"> 首日08:00前出發
+                            <input type="checkbox" id="chk-ret-dn" checked onchange="calculateAllowance()"> 返程19:00後抵達
+                        </div>
+                    </div>
+
+                    <div class="calc-row">
+                        <label>4. 扣除免費餐點：</label>
+                        <div>
+                            早 <input type="number" id="no-bf" value="0" min="0" style="width: 40px;" onchange="calculateAllowance()"> | 
+                            午 <input type="number" id="no-lu" value="0" min="0" style="width: 40px;" onchange="calculateAllowance()"> | 
+                            晚 <input type="number" id="no-dn" value="0" min="0" style="width: 40px;" onchange="calculateAllowance()">
+                        </div>
+                    </div>
+
+                    <div class="calc-result" id="calc-output">
+                        預估可申請津貼總額：NT$ 0
+                    </div>
+                </div>
+            </div>
+        `;
+        calculateAllowance();
+    }
+
+    function calculateAllowance() {
+        var baseRate = parseFloat(document.getElementById('calc-region').value);
+        var days = parseInt(document.getElementById('calc-days').value) || 1;
+
+        var bfRate = baseRate * 0.10;
+        var luRate = baseRate * 0.30;
+        var dnRate = baseRate * 0.30;
+        var dailyMisc = baseRate * 0.30;
+
+        var total = 0;
+
+        if (days === 1) {
+            total += dailyMisc * 0.5;
+            if (document.getElementById('chk-dep-bf').checked) total += bfRate;
+            total += luRate;
+            if (document.getElementById('chk-ret-dn').checked) total += dnRate;
+        } else {
+            total += dailyMisc; 
+            total += luRate + dnRate;
+            if (document.getElementById('chk-dep-bf').checked) total += bfRate;
+
+            total += bfRate + luRate;
+            if (document.getElementById('chk-ret-dn').checked) total += dnRate;
+
+            var middleDays = days - 2;
+            if (middleDays > 0) {
+                total += middleDays * baseRate;
+            }
+        }
+
+        var noBf = parseInt(document.getElementById('no-bf').value) || 0;
+        var noLu = parseInt(document.getElementById('no-lu').value) || 0;
+        var noDn = parseInt(document.getElementById('no-dn').value) || 0;
+
+        total -= (noBf * bfRate + noLu * luRate + noDn * dnRate);
+
+        if (total < 0) total = 0;
+
+        document.getElementById('calc-output').innerText = '預估可申請津貼總額：NT$ ' + total.toLocaleString();
+    }
+
+    function showVisaResult() {
+        var resultDiv = document.getElementById('result-area');
+        resultDiv.style.display = 'block';
+
+        resultDiv.innerHTML = `
+            <div class="card">
+                <h3>🪪 台胞證申請須知 (歐美亞代辦)</h3>
+                <div class="notice-box">
+                    <strong>🚚 文件寄送：</strong> 打包信封註明「給 Team B」，發 Email 給 tw.travel@amexgbt.com 安排快遞收件。
+                </div>
+
+                <h4>💰 費用與天數 (五年效期)</h4>
+                <table>
+                    <thead><tr><th>類別</th><th>工作天</th><th>換領/新辦</th><th>遺失/污損</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>正常件</strong></td><td>7 - 9 天</td><td>$1,500</td><td>$2,650</td></tr>
+                        <tr><td><strong>趕件</strong></td><td>4 - 6 天</td><td>$2,600</td><td>$3,250</td></tr>
+                    </tbody>
+                </table>
+
+                <h4>📋 必備資料</h4>
+                <ol>
+                    <li>護照正本（6個月以上效期）</li>
+                    <li>半年內 2 吋白底照片 1 張（露雙耳雙眉、不可穿白衣/戴飾品）</li>
+                    <li>舊台胞證正本與影本（換領件必備）</li>
+                    <li>身分證正反面影本 1:1</li>
+                    <li>公司名片影本 1 張</li>
+                </ol>
+            </div>
+        `;
+    }
+
+    function resetForm() {
+        hideAll();
+    }
+</script>
+
+</body>
+</html>
