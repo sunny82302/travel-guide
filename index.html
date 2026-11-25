@@ -195,6 +195,29 @@
             font-weight: 600;
         }
 
+        .ref-img-box {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            margin: 8px 0;
+            text-align: center;
+        }
+
+        .ref-img-box img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+        }
+
+        .ref-img-caption {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            text-align: left;
+        }
+
         .template-box {
             background: #ffffff;
             border: 1px dashed #9ca3af;
@@ -548,13 +571,14 @@
                 <div class="notice-box">
                     <strong>📌 使用說明：</strong><br>
                     <strong>僅限「初次透過金龍旅行社申請出差」的同仁才須填寫提供</strong>（已建檔過者免填）。請於線上填妥下方資料後，點擊橘色按鈕<strong>「列印 / 另存為 PDF 附件」</strong>，隨同機票詢價信件寄送給金龍旅行社（<span class="path-info">GTC.TeamB@dragontr.com.tw</span>）。<br>
+                    • <strong>成本中心與內部訂單</strong>：請至<strong>員工請款畫面</strong>對應確認並填寫（參考下方 <code>costcenter.png</code> 紅框位置）。<br>
                     • <strong>入境中國大陸</strong>：請務必填寫台胞證資料（或附上台胞證掃描檔）。<br>
                     • <strong>入境美國</strong>：請務必填寫護照相關資訊（或附上護照影本）。
                 </div>
 
                 <table>
                     <tr>
-                        <th colspan="4" class="section-banner">一、旅客基本聯絡資訊（必填）</th>
+                        <th colspan="4" class="section-banner">一、旅客基本聯絡資訊與費用歸屬（必填）</th>
                     </tr>
                     <tr>
                         <th>公司名稱</th>
@@ -578,7 +602,18 @@
                         <th>國籍</th>
                         <td><input type="text" value="TAIWAN (R.O.C.)"></td>
                     </tr>
+                    <tr>
+                        <th>成本中心 (Cost Center)</th>
+                        <td><input type="text" placeholder="請至員工請款畫面確認，例：BSH_TW71220000"></td>
+                        <th>內部訂單 (Internal Order)</th>
+                        <td><input type="text" placeholder="請至員工請款畫面確認，例：600003503"></td>
+                    </tr>
                 </table>
+
+                <div class="ref-img-box no-print">
+                    <img src="costcenter.png" alt="員工請款畫面 Cost Center 與 Internal Order 位置參考">
+                    <div class="ref-img-caption">💡 <strong>參考位置（員工請款「資訊收集 Information Collection」）：</strong>請至員工請款畫面核對您的「<strong>成本中心 Cost Center</strong>」與「<strong>內部訂單 Internal Order</strong>」並填入上方欄位。</div>
+                </div>
 
                 <table>
                     <tr>
@@ -840,7 +875,7 @@
                         <li><strong>專責窗口 Email：</strong> <span class="path-info">GTC.TeamB@dragontr.com.tw</span>（寄信時請務必副本 cc Sunny）。</li>
                         <li><strong>服務時間與電話：</strong> 週一至週五 09:00 - 18:00｜TEL：(02) 2714-8889｜FAX：(02) 2718-0733</li>
                         <li>💡 <strong>金額預算建議：</strong> 預算建議抓高 NT$3,000 Buffer。</li>
-                        <li>💡 <strong>訂位建檔所需資訊（初次申請出差才須提供）：</strong> 首次訂票同仁請填寫「旅客訂位建檔表」並另存為 PDF 附在詢價信內（或提供護照／台胞證掃描檔），已建檔過者免重複提供：<br>
+                        <li>💡 <strong>訂位建檔所需資訊（初次申請出差才須提供）：</strong> 首次訂票同仁請填寫「旅客訂位建檔表」（含 Cost Center 與 Internal Order，可至員工請款畫面參考）並另存為 PDF 附在詢價信內（或提供護照／台胞證掃描檔），已建檔過者免重複提供：<br>
                             <button class="sub-action-btn" onclick="selectType('traveler-profile')">📝 點此填寫「旅客訂位建檔表」（初次出差才須提供）</button>
                         </li>
                     </ul>
@@ -852,7 +887,7 @@
 
                     <div class="notice-box">
                         <strong>📋 機票預訂與開票作業流程：</strong><br>
-                        1. <strong>同仁提出機票需求</strong>（寄信至旅行社詢價並 cc Sunny，<strong>建議備註想要出發的時間：上午／下午</strong>；初次申請出差者請一併附上「旅客訂位建檔表 PDF」或護照／台胞證影本）<br>
+                        1. <strong>同仁提出機票需求</strong>（寄信至旅行社詢價並 cc Sunny，<strong>建議備註想要出發的時間：上午／下午</strong>；初次申請出差者請一併附上「旅客訂位建檔表 PDF」或護照／台胞證影本，並提供 Cost Center 與 Internal Order）<br>
                         2. <strong>待有班機資訊與報價後，請上 Power Platform 提出出差申請</strong>並取得主管同意（系統將自動通知 Sunny）<br>
                         3. <strong>出差申請簽核通過後，Sunny 會通知旅行社開票</strong>（旅行社開票後將提供電子機票與電子收據）
                     </div>
@@ -879,10 +914,12 @@
 - 護照英文名：
 - 手機號碼：
 - 出差地點：
-- 出差日期與偏好時段：
+- 出差日期與偏好時段（上午／下午）：
+- 成本中心 Cost Center（初次出差必填，請參考員工請款畫面）：
+- 內部訂單 Internal Order（初次出差必填，請參考員工請款畫面）：
 - 備註需求（如艙等、直飛/轉機）：
 
-（隨信附上「旅客訂位建檔表 PDF」／證件資料，供後續訂位建檔使用）
+（初次申請出差者隨信附上「旅客訂位建檔表 PDF」／證件資料，供後續訂位建檔使用）
 謝謝！
                     </div>
 
