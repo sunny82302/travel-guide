@@ -169,6 +169,32 @@
             word-break: break-all;
         }
 
+        .qr-box {
+            text-align: center;
+            margin: 14px 0;
+            padding: 12px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .qr-box img {
+            max-width: 175px;
+            width: 100%;
+            height: auto;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 6px;
+            background: #ffffff;
+        }
+
+        .qr-caption {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
         .template-box {
             background: #ffffff;
             border: 1px dashed #9ca3af;
@@ -753,7 +779,7 @@
                     <ol>
                         <li><strong>飯店預訂：</strong> 請優先透過 <a href="https://obe.derhotel.com/store/hotel/search/live" target="_blank">DER Hotel 訂房系統</a> 預訂。</li>
                         <li><strong>公司統編：</strong> 企業統編請輸入 <strong>53733783</strong>。</li>
-                        <li><strong>備用簽約清單：</strong> 可參考 <span class="path-info">Z:\\General\\EWC\\出差相關\\簽約旅館</span>。</li>
+                        <li><strong>備用簽約清單：</strong> 可參考 <span class="path-info">Z:\General\EWC\出差相關\簽約旅館</span>。</li>
                         <li><strong>送簽申請：</strong> 務必至 <strong>Power Platform</strong> 與 <strong>Apollo (考勤系統)</strong> 提交申請單。</li>
                     </ol>
                 </div>
@@ -804,13 +830,16 @@
                     <ul>
                         <li><strong>專責窗口 Email：</strong> <span class="path-info">GTC.TeamB@dragontr.com.tw</span>（寄信時請務必副本 cc Sunny）。</li>
                         <li><strong>服務時間與電話：</strong> 週一至週五 09:00 - 18:00｜TEL：(02) 2714-8889｜FAX：(02) 2718-0733</li>
-                        <li><strong>地址：</strong> 台北市松山區(105)復興北路167號13樓</li>
-                        <li><strong>客戶服務主管（意見反饋專線）：</strong> 邱佳鳳 Ms. Louisa Chiu｜Tel：(02) 2714-8968｜Email：<span class="path-info">louisa-chiu@dragontr.com.tw</span></li>
                         <li>💡 <strong>金額預算建議：</strong> 預算建議抓高 NT$3,000 Buffer。</li>
                         <li>💡 <strong>訂位建檔所需資訊：</strong> 請填寫「旅客訂位建檔表」並另存為 PDF 附在詢價信內（或提供護照／台胞證掃描檔）：<br>
                             <button class="sub-action-btn" onclick="selectType('traveler-profile')">📝 點此填寫「旅客訂位建檔表」並存成 PDF</button>
                         </li>
                     </ul>
+
+                    <div class="qr-box">
+                        <img src="line-qr.png" alt="金龍永盛旅行社官方 LINE QR Code">
+                        <div class="qr-caption">📲 金龍永盛旅行社｜上班時間官方 LINE QR Code</div>
+                    </div>
 
                     <div class="notice-box">
                         <strong>📋 金龍旅行社訂票作業流程：</strong><br>
@@ -998,12 +1027,14 @@
 
         resultDiv.innerHTML = `
             <div class="card">
-                <h3>🪪 台胞證申請須知 (金龍永盛旅行社代辦)</h3>
+                <h3>🪪 護照 / 台胞證申辦須知（金龍永盛旅行社代辦）</h3>
                 <div class="notice-box">
-                    <strong>🚚 窗口聯繫與文件寄送：</strong> 打包信封註明「給 Team B（博西家電 BSH）」，發 Email 給 <span class="path-info">GTC.TeamB@dragontr.com.tw</span>（副本 cc Sunny）安排收件／代辦。
+                    <strong>🚚 外務收件與送件方式：</strong><br>
+                    辦理護照、台胞證等證件皆由<strong>金龍旅行社派外務到公司收件</strong>。<br>
+                    請將申辦文件準備齊全後打包（信封請註明「給 Team B / 博西家電 BSH」），<strong>放置於公司櫃檯並通知取件</strong>，同時發 Email 給 <span class="path-info">GTC.TeamB@dragontr.com.tw</span>（副本 cc Sunny）聯繫外務收件。
                 </div>
 
-                <h4>💰 費用與天數 (五年效期參考)</h4>
+                <h4>💰 台胞證費用與天數（五年效期參考）</h4>
                 <table>
                     <thead><tr><th>類別</th><th>工作天</th><th>換領/新辦</th><th>遺失/污損</th></tr></thead>
                     <tbody>
@@ -1012,7 +1043,7 @@
                     </tbody>
                 </table>
 
-                <h4>📋 必備資料</h4>
+                <h4>📋 台胞證必備資料</h4>
                 <ol>
                     <li>護照正本（6個月以上效期）</li>
                     <li>半年內 2 吋白底照片 1 張（露雙耳雙眉、不可穿白衣/戴飾品）</li>
