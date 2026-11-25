@@ -428,10 +428,11 @@
         </div>
         <div class="step-title">步驟 2：您目前處於出差的哪一個階段？</div>
         <div class="btn-group">
-            <button class="btn" onclick="showOverseasResult('flight')">1. 機票與飯店預訂 (金龍旅行社)</button>
-            <button class="btn" onclick="showOverseasResult('wf')">2. 提交出差申請單 & 開票</button>
-            <button class="btn" onclick="showOverseasResult('transfer_stage')">3. 預約專車機場接送</button>
-            <button class="btn" onclick="showOverseasResult('after')">4. 返國費用核銷</button>
+            <button class="btn" onclick="showOverseasResult('hotel')">1. 飯店預訂 (BSH 集團訂房網)</button>
+            <button class="btn" onclick="showOverseasResult('flight')">2. 機票預訂 (金龍旅行社)</button>
+            <button class="btn" onclick="showOverseasResult('wf')">3. 提交出差申請單 & 開票</button>
+            <button class="btn" onclick="showOverseasResult('transfer_stage')">4. 預約專車機場接送</button>
+            <button class="btn" onclick="showOverseasResult('after')">5. 返國費用核銷</button>
         </div>
     </div>
 
@@ -816,17 +817,25 @@
         var resultDiv = document.getElementById('result-area');
         resultDiv.style.display = 'block';
 
-        if (stage === 'flight') {
+        if (stage === 'hotel') {
             resultDiv.innerHTML = `
                 <div class="card">
-                    <h3>階段 1：機票與飯店預訂指引</h3>
-                    <h4>🏨 1. 住宿預訂（優先使用 DER Hotel）</h4>
-                    <ul>
-                        <li>請透過 <a href="https://obe.derhotel.com/store/hotel/search/live" target="_blank">DER Hotel 訂房網站</a> 預訂。</li>
-                        <li>備用管道：BSH CRC 平台；香港或南京可聯繫當地 Admin（香港窗口：<a href="mailto:Alman.Li@bshg.com">Alman.Li@bshg.com</a>）。</li>
-                    </ul>
-
-                    <h4>✈️ 2. 機票報價（金龍永盛旅行社 Grand Travel - Team B｜2026/12/1 起啟用）</h4>
+                    <h3>🏨 階段 1：飯店預訂（BSH 集團訂房系統）</h3>
+                    <div class="notice-box">
+                        <strong>📌 集團訂房規範：</strong><br>
+                        海外出差住宿請優先透過 <strong>BSH 集團合作訂房網站（DER Hotel）</strong> 查詢與預訂，並請務必使用公司信箱（<strong>@bshg.com</strong>）登入操作。
+                    </div>
+                    <ol>
+                        <li><strong>首選訂房系統：</strong> 請前往 <a href="https://obe.derhotel.com/store/hotel/search/live" target="_blank">DER Hotel 集團訂房網站</a> 預訂。</li>
+                        <li><strong>備用訂房管道：</strong> 若 DER Hotel 無合適房源，可使用 <strong>BSH CRC 平台</strong>；前往香港或南京出差亦可聯繫當地 Admin 協助（香港窗口：<a href="mailto:Alman.Li@bshg.com">Alman.Li@bshg.com</a>）。</li>
+                        <li><strong>保留訂房憑證：</strong> 完成預訂後請留存訂房確認單，作為後續提交「出差申請單」之附件。</li>
+                    </ol>
+                </div>
+            `;
+        } else if (stage === 'flight') {
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <h3>✈️ 階段 2：機票預訂（金龍永盛旅行社 Grand Travel - Team B｜2026/12/1 起啟用）</h3>
                     <ul>
                         <li><strong>專責窗口 Email：</strong> <span class="path-info">GTC.TeamB@dragontr.com.tw</span>（寄信時請務必副本 cc Sunny）。</li>
                         <li><strong>服務時間與電話：</strong> 週一至週五 09:00 - 18:00｜TEL：(02) 2714-8889｜FAX：(02) 2718-0733</li>
@@ -879,17 +888,23 @@
 （隨信附上「旅客訂位建檔表 PDF」／證件資料，供後續訂位建檔使用）
 謝謝！
                     </div>
+
+                    <div class="warning-card" style="margin-top: 14px; margin-bottom: 0;">
+                        <strong>⚠️ 取得報價後請勿直接要求開票：</strong><br>
+                        須先完成出差申請單送簽並經核准，再由 Sunny 統一聯繫金龍旅行社開票。<br>
+                        <button class="sub-action-btn" onclick="showOverseasResult('wf')">✈️ 下一步：前往階段 3 提交出差申請單 &amp; 開票</button>
+                    </div>
                 </div>
             `;
         } else if (stage === 'wf') {
             resultDiv.innerHTML = `
                 <div class="card">
-                    <h3>階段 2：提交出差申請單 & 開票</h3>
+                    <h3>階段 3：提交出差申請單 & 開票</h3>
                     <ol>
                         <li><strong>Power Platform 填寫申請單：</strong><br>
                         選擇 <code>台灣 Taiwan</code> -> <code>Human Resources</code> -> <code>出差申請表 Travel Application</code>。
                         </li>
-                        <li><strong>準備附件：</strong> 金龍旅行社機票報價 Email、住宿報價、邀請函、Travel Security 證明。</li>
+                        <li><strong>準備附件：</strong> 金龍旅行社機票報價 Email、DER Hotel 住宿預訂確認單、邀請函、Travel Security 證明。</li>
                     </ol>
                     <div class="notice-box">
                         <strong>✈️ 【重要】開票作業說明：</strong><br>
@@ -902,7 +917,7 @@
         } else if (stage === 'after') {
             resultDiv.innerHTML = `
                 <div class="card">
-                    <h3>階段 4：出差結束與費用報支（14 個工作天內）</h3>
+                    <h3>階段 5：出差結束與費用報支（14 個工作天內）</h3>
                     <ul>
                         <li><strong>1. 登機證繳交：</strong> 紙本登機證請<strong>左側浮貼於 A4 紙</strong>；電子登機證請列印成 A4 格式繳交給 Sunny。</li>
                         <li><strong>2. 請款匯率：</strong> 預設為台銀現金賣出匯率；若用實際匯率需附信用卡/水單證明。</li>
@@ -1062,3 +1077,4 @@
 
 </body>
 </html>
+```[cite: 7]
