@@ -396,7 +396,7 @@
         <div class="btn-group">
             <button class="btn" id="btn-domestic">國內出差</button>
             <button class="btn" id="btn-overseas">海外出差</button>
-            <button class="btn" id="btn-traveler-profile">📝 旅客訂位建檔表 (PDF)</button>
+            <button class="btn" id="btn-traveler-profile">📝 旅客訂位建檔表 (初次出差必填)</button>
             <button class="btn" id="btn-transfer">🚘 預約機場接送</button>
             <button class="btn" id="btn-allowance">💰 差旅津貼試算</button>
             <button class="btn" id="btn-visa">🪪 辦理台胞證</button>
@@ -544,10 +544,10 @@
                     <p style="margin:4px 0 0; font-size:14px; font-weight:bold; color:#F26A3D;">商務差旅旅客訂位建檔表 (Traveler Profile Form - 金龍永盛旅行社專用)</p>
                 </div>
 
-                <h3 class="no-print">📝 旅客訂位建檔所需資訊填寫表（金龍永盛旅行社）</h3>
+                <h3 class="no-print">📝 旅客訂位建檔所需資訊填寫表（初次申請出差才須提供）</h3>
                 <div class="notice-box">
                     <strong>📌 使用說明：</strong><br>
-                    為利後續訂票與差旅管理，請於線上填妥下方資料後，點擊橘色按鈕<strong>「列印 / 另存為 PDF 附件」</strong>，隨同機票詢價信件寄送給金龍旅行社（<span class="path-info">GTC.TeamB@dragontr.com.tw</span>）。<br>
+                    <strong>僅限「初次透過金龍旅行社申請出差」的同仁才須填寫提供</strong>（已建檔過者免填）。請於線上填妥下方資料後，點擊橘色按鈕<strong>「列印 / 另存為 PDF 附件」</strong>，隨同機票詢價信件寄送給金龍旅行社（<span class="path-info">GTC.TeamB@dragontr.com.tw</span>）。<br>
                     • <strong>入境中國大陸</strong>：請務必填寫台胞證資料（或附上台胞證掃描檔）。<br>
                     • <strong>入境美國</strong>：請務必填寫護照相關資訊（或附上護照影本）。
                 </div>
@@ -840,8 +840,8 @@
                         <li><strong>專責窗口 Email：</strong> <span class="path-info">GTC.TeamB@dragontr.com.tw</span>（寄信時請務必副本 cc Sunny）。</li>
                         <li><strong>服務時間與電話：</strong> 週一至週五 09:00 - 18:00｜TEL：(02) 2714-8889｜FAX：(02) 2718-0733</li>
                         <li>💡 <strong>金額預算建議：</strong> 預算建議抓高 NT$3,000 Buffer。</li>
-                        <li>💡 <strong>訂位建檔所需資訊：</strong> 請填寫「旅客訂位建檔表」並另存為 PDF 附在詢價信內（或提供護照／台胞證掃描檔）：<br>
-                            <button class="sub-action-btn" onclick="selectType('traveler-profile')">📝 點此填寫「旅客訂位建檔表」並存成 PDF</button>
+                        <li>💡 <strong>訂位建檔所需資訊（初次申請出差才須提供）：</strong> 首次訂票同仁請填寫「旅客訂位建檔表」並另存為 PDF 附在詢價信內（或提供護照／台胞證掃描檔），已建檔過者免重複提供：<br>
+                            <button class="sub-action-btn" onclick="selectType('traveler-profile')">📝 點此填寫「旅客訂位建檔表」（初次出差才須提供）</button>
                         </li>
                     </ul>
 
@@ -851,13 +851,10 @@
                     </div>
 
                     <div class="notice-box">
-                        <strong>📋 金龍旅行社訂票作業流程：</strong><br>
-                        1. 同仁以 Email 提供初步出差需求（尚未訂位）<br>
-                        2. 旅行社提供合適航班選擇與報價<br>
-                        3. 同仁確認預訂並提供旅客建檔資料（可附 PDF 建檔表／證件影本）<br>
-                        4. 旅行社回覆機位狀況、開票期限及相關入境／簽證提醒<br>
-                        5. 待公司出差單核准並確認開票後，進行正式開票作業<br>
-                        6. 旅行社提供電子機票及電子收據
+                        <strong>📋 機票預訂與開票作業流程：</strong><br>
+                        1. <strong>同仁提出機票需求</strong>（寄信至旅行社詢價並 cc Sunny，<strong>建議備註想要出發的時間：上午／下午</strong>；初次申請出差者請一併附上「旅客訂位建檔表 PDF」或護照／台胞證影本）<br>
+                        2. <strong>待有班機資訊與報價後，請上 Power Platform 提出出差申請</strong>並取得主管同意（系統將自動通知 Sunny）<br>
+                        3. <strong>出差申請簽核通過後，Sunny 會通知旅行社開票</strong>（旅行社開票後將提供電子機票與電子收據）
                     </div>
 
                     <div class="emergency-card">
@@ -1077,4 +1074,3 @@
 
 </body>
 </html>
-```[cite: 7]
