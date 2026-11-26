@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BSH 出差 SOP 互動指引助手</title>
+    <title>BSH Business Travel SOP Guide</title>
     <style>
         :root {
             --primary-color: #F26A3D;
@@ -39,6 +39,37 @@
             padding: 22px;
         }
 
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 6px;
+        }
+
+        .lang-toggle {
+            background-color: #ffffff;
+            border: 1.5px solid var(--dark-grey);
+            color: var(--dark-grey);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .lang-toggle:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .lang-toggle .active-lang {
+            color: var(--primary-color);
+        }
+
         h1 {
             color: var(--dark-grey);
             text-align: center;
@@ -46,8 +77,8 @@
             margin-bottom: 22px;
             border-bottom: 2px solid #e5e7eb;
             padding-bottom: 14px;
-            font-size: 1.5rem;
-            letter-spacing: 0.5px;
+            font-size: 1.45rem;
+            letter-spacing: 0.3px;
         }
 
         h1 .brand-badge {
@@ -58,7 +89,7 @@
             padding: 2px 9px;
             border-radius: 4px;
             vertical-align: middle;
-            margin-right: 6px;
+            margin-right: 8px;
             font-weight: 700;
         }
 
@@ -395,7 +426,7 @@
         .print-only-header { display: none; }
 
         @media print {
-            .no-print, .btn-group, .step-container, h1, .reset-btn, .warning-card, .emergency-card, .notice-box, .btn-container, .print-btn, .sub-action-btn, .copy-btn, .template-box, .hide-on-print { display: none !important; }
+            .no-print, .top-bar, .btn-group, .step-container, h1, .reset-btn, .warning-card, .emergency-card, .notice-box, .btn-container, .print-btn, .sub-action-btn, .copy-btn, .template-box, .hide-on-print { display: none !important; }
             body { background-color: #ffffff; padding: 0; margin: 0; color: #000000; }
             .container { box-shadow: none; border: none; padding: 0; max-width: 100%; }
             .card { border: none; padding: 0; background: transparent; margin: 0; }
@@ -411,11 +442,17 @@
 <body>
 
 <div class="container">
-    <h1><span class="brand-badge">BSH</span>出差互動指引系統</h1>
+    <div class="top-bar no-print">
+        <button class="lang-toggle" id="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / 切換語言">
+            🌐 <span id="lang-zh-label" class="active-lang">繁中</span> ｜ <span id="lang-en-label">EN</span>
+        </button>
+    </div>
+
+    <h1><span class="brand-badge">BSH</span><span id="app-title">出差互動指引系統</span></h1>
 
     <!-- 步驟一：選擇出差類型 -->
     <div class="step-container" id="type-select">
-        <div class="step-title">步驟 1：請問您本次需求是？</div>
+        <div class="step-title" id="step1-title">步驟 1：請問您本次需求是？</div>
         <div class="btn-group">
             <button class="btn" id="btn-domestic">國內出差</button>
             <button class="btn" id="btn-overseas">海外出差</button>
@@ -428,45 +465,36 @@
 
     <!-- 步驟二（國內）：選住宿狀況 -->
     <div class="step-container" id="domestic-options" style="display: none;">
-        <div class="notice-box">
-            <strong>📋 國內出差申請基本規範：</strong><br>
-            • <strong>需要過夜：</strong> 必須事先提出「出差申請單」，<strong>且「Power Platform」與「Apollo (考勤系統)」兩個系統皆需要申請</strong>，經主管核准後方可安排住宿。<br>
-            • <strong>當日來回：</strong> 無需填寫電子出差申請單，但需事先向部門主管口頭或 Email 知會出差地點與目的。
-        </div>
-        <div class="step-title">步驟 2：請選擇您的住宿需求與狀態</div>
+        <div class="notice-box" id="domestic-notice"></div>
+        <div class="step-title" id="domestic-step2-title">步驟 2：請選擇您的住宿需求與狀態</div>
         <div class="btn-group">
-            <button class="btn" onclick="showDomesticResult('derhotel')">預訂 DER Hotel 夥伴飯店 (過夜)</button>
-            <button class="btn" onclick="showDomesticResult('special')">自行尋找住宿（DER滿房/價格過高）</button>
-            <button class="btn" onclick="showDomesticResult('oneday')">當日來回行程 (無需過夜)</button>
+            <button class="btn" id="btn-dom-der" onclick="showDomesticResult('derhotel')">預訂 DER Hotel 夥伴飯店 (過夜)</button>
+            <button class="btn" id="btn-dom-special" onclick="showDomesticResult('special')">自行尋找住宿（DER滿房/價格過高）</button>
+            <button class="btn" id="btn-dom-oneday" onclick="showDomesticResult('oneday')">當日來回行程 (無需過夜)</button>
         </div>
     </div>
 
     <!-- 步驟二（海外）：選擇執行階段 -->
     <div class="step-container" id="overseas-options" style="display: none;">
-        <div class="warning-card">
-            <strong>🔒 全球 Travel Security 安全規範提醒：</strong><br>
-            出發前請先至 <a href="https://crisis24horizon.com" target="_blank">Crisis24 Horizon</a> 確認出差地風險等級：<br>
-            • <strong> Moderate 風險地區</strong>：須完成 Learning Hub 課程 <i>Travel Security Basics</i> (ID: LSO_60010737)，並於出差申請單附上有效證照。<br>
-            • <strong> High 以上地區</strong>：非極特殊必要需求，一律禁止前往。
-        </div>
-        <div class="step-title">步驟 2：您目前處於出差的哪一個階段？</div>
+        <div class="warning-card" id="overseas-warning"></div>
+        <div class="step-title" id="overseas-step2-title">步驟 2：您目前處於出差的哪一個階段？</div>
         <div class="btn-group">
-            <button class="btn" onclick="showOverseasResult('hotel')">1. 飯店預訂 (BSH 集團訂房網)</button>
-            <button class="btn" onclick="showOverseasResult('flight')">2. 機票預訂 (金龍旅行社)</button>
-            <button class="btn" onclick="showOverseasResult('wf')">3. 提交出差申請單 & 開票</button>
-            <button class="btn" onclick="showOverseasResult('transfer_stage')">4. 預約專車機場接送</button>
-            <button class="btn" onclick="showOverseasResult('after')">5. 返國費用核銷</button>
+            <button class="btn" id="btn-ov-hotel" onclick="showOverseasResult('hotel')">1. 飯店預訂 (BSH 集團訂房網)</button>
+            <button class="btn" id="btn-ov-flight" onclick="showOverseasResult('flight')">2. 機票預訂 (金龍旅行社)</button>
+            <button class="btn" id="btn-ov-wf" onclick="showOverseasResult('wf')">3. 提交出差申請單 &amp; 開票</button>
+            <button class="btn" id="btn-ov-transfer" onclick="showOverseasResult('transfer_stage')">4. 預約專車機場接送</button>
+            <button class="btn" id="btn-ov-after" onclick="showOverseasResult('after')">5. 返國費用核銷</button>
         </div>
     </div>
 
     <datalist id="address-options">
-        <option value="台北市內湖區洲子街80號 (BSH 總辦公室)">
-        <option value="台北市內湖區瑞光路258巷55號 (CS office)">
-        <option value="桃園國際機場第一航廈">
-        <option value="桃園國際機場第二航廈">
-        <option value="台北松山機場">
-        <option value="臺北市中山區敬業四路168號 (台北大直維多麗亞酒店)">
-        <option value="台北市中山區植福路200號 (台北大直英迪格酒店)">
+        <option value="台北市內湖區洲子街80號 (BSH 總辦公室 / Taipei HQ)">
+        <option value="台北市內湖區瑞光路258巷55號 (CS Office)">
+        <option value="桃園國際機場第一航廈 (Taoyuan Airport T1)">
+        <option value="桃園國際機場第二航廈 (Taoyuan Airport T2)">
+        <option value="台北松山機場 (Taipei Songshan Airport TSA)">
+        <option value="臺北市中山區敬業四路168號 (台北大直維多麗亞酒店 / Grand Victoria Hotel)">
+        <option value="台北市中山區植福路200號 (台北大直英迪格酒店 / Hotel Indigo Taipei North)">
     </datalist>
 
     <div id="result-area" style="display: none;"></div>
@@ -475,6 +503,68 @@
 </div>
 
 <script>
+    var currentLang = localStorage.getItem('bsh_travel_sop_lang') || 'zh-TW';
+    var currentView = { type: null, sub: null };
+
+    var I18N = {
+        'zh-TW': {
+            pageTitle: 'BSH 出差 SOP 互動指引助手',
+            appTitle: '出差互動指引系統',
+            step1Title: '步驟 1：請問您本次需求是？',
+            btnDomestic: '國內出差',
+            btnOverseas: '海外出差',
+            btnTravelerProfile: '📝 旅客訂位建檔表 (初次出差必填)',
+            btnTransfer: '🚘 預約機場接送',
+            btnAllowance: '💰 差旅津貼試算',
+            btnVisa: '🪪 辦理護照 / 台胞證',
+            domesticNotice: '<strong>📋 國內出差申請基本規範：</strong><br>• <strong>需要過夜：</strong> 必須事先提出「出差申請單」，<strong>且「Power Platform」與「Apollo (考勤系統)」兩個系統皆需要申請</strong>，經主管核准後方可安排住宿。<br>• <strong>當日來回：</strong> 無需填寫電子出差申請單，但需事先向部門主管口頭或 Email 知會出差地點與目的。',
+            domesticStep2Title: '步驟 2：請選擇您的住宿需求與狀態',
+            btnDomDer: '預訂 DER Hotel 夥伴飯店 (過夜)',
+            btnDomSpecial: '自行尋找住宿（DER滿房/價格過高）',
+            btnDomOneday: '當日來回行程 (無需過夜)',
+            overseasWarning: '<strong>🔒 全球 Travel Security 安全規範提醒：</strong><br>出發前請先至 <a href="https://crisis24horizon.com" target="_blank">Crisis24 Horizon</a> 確認出差地風險等級：<br>• <strong> Moderate 風險地區</strong>：須完成 Learning Hub 課程 <i>Travel Security Basics</i> (ID: LSO_60010737)，並於出差申請單附上有效證照。<br>• <strong> High 以上地區</strong>：非極特殊必要需求，一律禁止前往。',
+            overseasStep2Title: '步驟 2：您目前處於出差的哪一個階段？',
+            btnOvHotel: '1. 飯店預訂 (BSH 集團訂房網)',
+            btnOvFlight: '2. 機票預訂 (金龍旅行社)',
+            btnOvWf: '3. 提交出差申請單 & 開票',
+            btnOvTransfer: '4. 預約專車機場接送',
+            btnOvAfter: '5. 返國費用核銷',
+            resetBtn: '🔄 重新選擇流程',
+            copiedAlert: '內容已複製！',
+            copyBtnText: '複製範本',
+            selectTimeText: '選擇時間',
+            allowanceOutputPrefix: '預估可申請津貼總額：NT$ '
+        },
+        'en': {
+            pageTitle: 'BSH Business Travel SOP Guide',
+            appTitle: 'Business Travel SOP Guide',
+            step1Title: 'Step 1: What would you like to arrange today?',
+            btnDomestic: 'Domestic Travel',
+            btnOverseas: 'International Travel',
+            btnTravelerProfile: '📝 Traveler Profile Form (First-Time Travelers)',
+            btnTransfer: '🚘 Airport Transfer Booking',
+            btnAllowance: '💰 Per Diem Calculator',
+            btnVisa: '🪪 Passport / Mainland Travel Permit',
+            domesticNotice: '<strong>📋 Domestic Travel Policy Essentials:</strong><br>• <strong>Overnight Stay:</strong> You must submit a Travel Application in <strong>both Power Platform and Apollo (Attendance System)</strong> for manager approval prior to booking accommodation.<br>• <strong>Same-Day Return:</strong> No formal travel request is required, though you must notify your line manager verbally or via email beforehand.',
+            domesticStep2Title: 'Step 2: Select your accommodation scenario',
+            btnDomDer: 'Book via DER Hotel Portal (Overnight)',
+            btnDomSpecial: 'Self-Arranged Hotel (DER Full / Over Budget)',
+            btnDomOneday: 'Same-Day Return Trip (No Overnight Stay)',
+            overseasWarning: '<strong>🔒 Global Travel Security Compliance:</strong><br>Before departure, check your destination’s risk rating on <a href="https://crisis24horizon.com" target="_blank">Crisis24 Horizon</a>:<br>• <strong>Moderate-Risk Destinations:</strong> You must complete the Learning Hub course <i>Travel Security Basics</i> (ID: LSO_60010737) and attach your valid certificate to the Travel Application.<br>• <strong>High-Risk & Above:</strong> Strictly prohibited unless approved under extraordinary business-critical circumstances.',
+            overseasStep2Title: 'Step 2: Which stage of your trip are you currently at?',
+            btnOvHotel: '1. Hotel Booking (DER Hotel Portal)',
+            btnOvFlight: '2. Flight Booking (Grand Travel)',
+            btnOvWf: '3. Travel Approval & Ticketing',
+            btnOvTransfer: '4. Airport Chauffeur Transfer',
+            btnOvAfter: '5. Post-Trip Expense Reimbursement',
+            resetBtn: '🔄 Start Over',
+            copiedAlert: 'Copied to clipboard!',
+            copyBtnText: 'Copy Template',
+            selectTimeText: 'Select time',
+            allowanceOutputPrefix: 'Estimated Total Per Diem: NT$ '
+        }
+    };
+
     document.addEventListener('DOMContentLoaded', function() {
         bindClick('btn-domestic', function() { selectType('domestic'); });
         bindClick('btn-overseas', function() { selectType('overseas'); });
@@ -482,12 +572,114 @@
         bindClick('btn-transfer', function() { selectType('transfer'); });
         bindClick('btn-allowance', function() { selectType('allowance'); });
         bindClick('btn-visa', function() { selectType('visa'); });
+        applyStaticTranslations();
     });
 
     function bindClick(id, fn) {
         var el = document.getElementById(id);
         if (el) {
             el.addEventListener('click', fn);
+        }
+    }
+
+    function toggleLanguage() {
+        var formState = captureFormState();
+        currentLang = (currentLang === 'zh-TW') ? 'en' : 'zh-TW';
+        localStorage.setItem('bsh_travel_sop_lang', currentLang);
+        applyStaticTranslations();
+
+        if (currentView.type) {
+            if (currentView.type === 'domestic') {
+                document.getElementById('btn-domestic').classList.add('active');
+                document.getElementById('domestic-options').style.display = 'block';
+                if (currentView.sub) showDomesticResult(currentView.sub);
+            } else if (currentView.type === 'overseas') {
+                document.getElementById('btn-overseas').classList.add('active');
+                document.getElementById('overseas-options').style.display = 'block';
+                if (currentView.sub) showOverseasResult(currentView.sub);
+            } else if (currentView.type === 'traveler-profile') {
+                showTravelerProfileForm();
+            } else if (currentView.type === 'transfer') {
+                showTransferForm();
+            } else if (currentView.type === 'allowance') {
+                showAllowanceResult();
+            } else if (currentView.type === 'visa') {
+                showVisaResult();
+            }
+            restoreFormState(formState);
+        }
+    }
+
+    function applyStaticTranslations() {
+        var t = I18N[currentLang];
+        document.documentElement.lang = currentLang;
+        document.title = t.pageTitle;
+        document.getElementById('app-title').innerText = t.appTitle;
+        document.getElementById('step1-title').innerText = t.step1Title;
+        document.getElementById('btn-domestic').innerText = t.btnDomestic;
+        document.getElementById('btn-overseas').innerText = t.btnOverseas;
+        document.getElementById('btn-traveler-profile').innerText = t.btnTravelerProfile;
+        document.getElementById('btn-transfer').innerText = t.btnTransfer;
+        document.getElementById('btn-allowance').innerText = t.btnAllowance;
+        document.getElementById('btn-visa').innerText = t.btnVisa;
+
+        document.getElementById('domestic-notice').innerHTML = t.domesticNotice;
+        document.getElementById('domestic-step2-title').innerText = t.domesticStep2Title;
+        document.getElementById('btn-dom-der').innerText = t.btnDomDer;
+        document.getElementById('btn-dom-special').innerText = t.btnDomSpecial;
+        document.getElementById('btn-dom-oneday').innerText = t.btnDomOneday;
+
+        document.getElementById('overseas-warning').innerHTML = t.overseasWarning;
+        document.getElementById('overseas-step2-title').innerText = t.overseasStep2Title;
+        document.getElementById('btn-ov-hotel').innerText = t.btnOvHotel;
+        document.getElementById('btn-ov-flight').innerText = t.btnOvFlight;
+        document.getElementById('btn-ov-wf').innerText = t.btnOvWf;
+        document.getElementById('btn-ov-transfer').innerText = t.btnOvTransfer;
+        document.getElementById('btn-ov-after').innerText = t.btnOvAfter;
+
+        document.getElementById('reset-btn').innerText = t.resetBtn;
+
+        var zhLbl = document.getElementById('lang-zh-label');
+        var enLbl = document.getElementById('lang-en-label');
+        if (currentLang === 'zh-TW') {
+            zhLbl.classList.add('active-lang');
+            enLbl.classList.remove('active-lang');
+        } else {
+            enLbl.classList.add('active-lang');
+            zhLbl.classList.remove('active-lang');
+        }
+    }
+
+    function captureFormState() {
+        var area = document.getElementById('result-area');
+        if (!area || area.style.display === 'none') return null;
+        var inputs = area.querySelectorAll('input, select, textarea');
+        var state = [];
+        for (var i = 0; i < inputs.length; i++) {
+            var el = inputs[i];
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                state.push({ checked: el.checked });
+            } else {
+                state.push({ value: el.value });
+            }
+        }
+        return state;
+    }
+
+    function restoreFormState(state) {
+        if (!state) return;
+        var area = document.getElementById('result-area');
+        var inputs = area.querySelectorAll('input, select, textarea');
+        for (var i = 0; i < inputs.length && i < state.length; i++) {
+            var el = inputs[i];
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                el.checked = state[i].checked;
+            } else if (state[i].value !== undefined) {
+                el.value = state[i].value;
+            }
+        }
+        if (document.getElementById('calc-output')) {
+            calculateAllowance();
         }
     }
 
@@ -504,6 +696,7 @@
 
     function selectType(type) {
         hideAll();
+        currentView = { type: type, sub: null };
         document.getElementById('reset-btn').style.display = 'block';
         if (type === 'domestic') {
             document.getElementById('btn-domestic').classList.add('active');
@@ -527,9 +720,13 @@
     }
 
     function copyToClipboard(elementId) {
-        var text = document.getElementById(elementId).innerText.replace('複製範本', '').trim();
+        var t = I18N[currentLang];
+        var box = document.getElementById(elementId);
+        var btn = box.querySelector('.copy-btn');
+        var btnLabel = btn ? btn.innerText : '';
+        var text = box.innerText.replace(btnLabel, '').trim();
         if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text).then(function() { alert('內容已複製！'); });
+            navigator.clipboard.writeText(text).then(function() { alert(t.copiedAlert); });
         } else {
             var textArea = document.createElement("textarea");
             textArea.value = text;
@@ -537,13 +734,13 @@
             textArea.select();
             document.execCommand('copy');
             document.body.removeChild(textArea);
-            alert('內容已複製！');
+            alert(t.copiedAlert);
         }
     }
 
     function populateTimePicker() {
         var selectBoxes = document.querySelectorAll('.time-picker');
-        var optionsHtml = '<option value="">選擇時間</option>';
+        var optionsHtml = '<option value="">' + I18N[currentLang].selectTimeText + '</option>';
         for (var h = 0; h < 24; h++) {
             for (var m = 0; m < 60; m += 10) {
                 var hourStr = h < 10 ? '0' + h : h;
@@ -559,6 +756,129 @@
     function showTravelerProfileForm() {
         var resultDiv = document.getElementById('result-area');
         resultDiv.style.display = 'block';
+
+        if (currentLang === 'en') {
+            resultDiv.innerHTML = `
+                <div class="card form-card">
+                    <div class="print-only-header">
+                        <h2 style="margin:0; color:#2d3136;">BSH Home Appliances Pte. Ltd. (Taiwan Branch)</h2>
+                        <p style="margin:4px 0 0; font-size:14px; font-weight:bold; color:#F26A3D;">Corporate Traveler Profile Form (For Grand Travel Agency Registration)</p>
+                    </div>
+
+                    <h3 class="no-print">📝 Traveler Profile Form (Required for First-Time Bookings Only)</h3>
+                    <div class="notice-box">
+                        <strong>📌 Instructions:</strong><br>
+                        <strong>Required only for employees booking through Grand Travel for the first time</strong> (skip if your profile is already on file). Complete the form below, click <strong>"Print / Save as PDF"</strong>, and attach it to your flight inquiry email to <span class="path-info">GTC.TeamB@dragontr.com.tw</span> (cc Sunny).<br>
+                        • <strong>Cost Center &amp; Internal Order:</strong> Please check your <strong>Employee Expense Reimbursement</strong> screen and enter the exact codes (see <code>costcenter.png</code> below).<br>
+                        • <strong>Travel to Mainland China:</strong> Mainland Travel Permit (台胞證) details or a scanned copy are mandatory.<br>
+                        • <strong>Travel to the U.S.:</strong> Passport details or a scanned copy are mandatory.
+                    </div>
+
+                    <table>
+                        <tr>
+                            <th colspan="4" class="section-banner">1. Traveler Contact &amp; Billing Allocation (Required)</th>
+                        </tr>
+                        <tr>
+                            <th>Company Name</th>
+                            <td colspan="3"><input type="text" value="BSH Home Appliances Pte. Ltd. (Taiwan Branch)"></td>
+                        </tr>
+                        <tr>
+                            <th>Chinese Full Name</th>
+                            <td><input type="text" placeholder="Enter Chinese full name (if applicable)"></td>
+                            <th>Passport Full Name</th>
+                            <td><input type="text" placeholder="Must match passport exactly, e.g., WANG, DA-MING"></td>
+                        </tr>
+                        <tr>
+                            <th>Mobile Number</th>
+                            <td><input type="text" placeholder="e.g., 0912-345-678"></td>
+                            <th>Corporate Email</th>
+                            <td><input type="email" placeholder="e.g., Name@bshg.com"></td>
+                        </tr>
+                        <tr>
+                            <th>Gender / Date of Birth</th>
+                            <td><input type="text" placeholder="e.g., M / 1990-01-01"></td>
+                            <th>Nationality</th>
+                            <td><input type="text" value="TAIWAN (R.O.C.)"></td>
+                        </tr>
+                        <tr>
+                            <th>Cost Center</th>
+                            <td><input type="text" placeholder="Check Expense System, e.g., BSH_TW71220000"></td>
+                            <th>Internal Order</th>
+                            <td><input type="text" placeholder="Check Expense System, e.g., 600003503"></td>
+                        </tr>
+                    </table>
+
+                    <div class="ref-img-box no-print">
+                        <img src="costcenter.png" alt="Cost Center and Internal Order Reference in Expense System">
+                        <div class="ref-img-caption">💡 <strong>Where to Find Your Codes:</strong> Open the <strong>Information Collection</strong> section in your Employee Expense Reimbursement portal to verify your <strong>Cost Center</strong> and <strong>Internal Order</strong>, then enter them above.</div>
+                    </div>
+
+                    <table>
+                        <tr>
+                            <th colspan="4" class="section-banner">2. Frequent Flyer Programs (Optional)</th>
+                        </tr>
+                        <tr>
+                            <th>Airline 1</th>
+                            <td><input type="text" placeholder="e.g., EVA Air"></td>
+                            <th>Membership No. 1</th>
+                            <td><input type="text" placeholder="Enter membership number"></td>
+                        </tr>
+                        <tr>
+                            <th>Airline 2</th>
+                            <td><input type="text" placeholder="e.g., China Airlines"></td>
+                            <th>Membership No. 2</th>
+                            <td><input type="text" placeholder="Enter membership number"></td>
+                        </tr>
+                        <tr>
+                            <th>Seat / Meal Preference</th>
+                            <td colspan="3"><input type="text" placeholder="e.g., Aisle / Window / Standard Meal"></td>
+                        </tr>
+                    </table>
+
+                    <table>
+                        <tr>
+                            <th colspan="4" class="section-banner">3. Travel Document Details (Fill Below or Attach Scanned Copies)</th>
+                        </tr>
+                        <tr>
+                            <th colspan="4" class="sub-banner">🇺🇸 U.S. &amp; International Flights: Passport Details (or Attach Passport Scan)</th>
+                        </tr>
+                        <tr>
+                            <th>Passport Number</th>
+                            <td><input type="text" placeholder="Enter passport number"></td>
+                            <th>Date of Expiry</th>
+                            <td><input type="date"></td>
+                        </tr>
+                        <tr>
+                            <th>Date of Issue</th>
+                            <td><input type="date"></td>
+                            <th>Issuing Country / Authority</th>
+                            <td><input type="text" value="TAIWAN"></td>
+                        </tr>
+                        <tr>
+                            <th colspan="4" class="sub-banner">🇨🇳 Mainland China Flights: Mainland Travel Permit (or Attach Scan)</th>
+                        </tr>
+                        <tr>
+                            <th>Permit Number</th>
+                            <td><input type="text" placeholder="8-digit Mainland Travel Permit No."></td>
+                            <th>Date of Expiry</th>
+                            <td><input type="date"></td>
+                        </tr>
+                        <tr>
+                            <th>Email Attachments</th>
+                            <td colspan="3">
+                                <label><input type="checkbox"> Passport copy attached</label> &nbsp;&nbsp;
+                                <label><input type="checkbox"> Mainland Travel Permit copy attached</label>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="text-align:center; margin: 15px 0;" class="no-print">
+                        <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF (Attach to Inquiry Email)</button>
+                    </div>
+                </div>
+            `;
+            return;
+        }
 
         resultDiv.innerHTML = `
             <div class="card form-card">
@@ -685,6 +1005,123 @@
         var resultDiv = document.getElementById('result-area');
         resultDiv.style.display = 'block';
 
+        if (currentLang === 'en') {
+            resultDiv.innerHTML = `
+                <div class="card form-card">
+                    <div class="print-only-header">
+                        <h2 style="margin:0; color:#2d3136;">Clida Car Rental Co., Ltd. — Airport Transfer Booking Form</h2>
+                    </div>
+                    <h3 class="no-print">🚘 Clida Airport Chauffeur Service — Booking Form</h3>
+                    <div class="notice-box">
+                        <strong>📌 Booking Guidelines:</strong><br>
+                        • <strong>Airport Drop-off:</strong> Recommended pickup time is <strong>3 hours prior to flight departure</strong>.<br>
+                        • <strong>Airport Pick-up:</strong> Please enter your <strong>scheduled flight arrival time</strong>.<br>
+                        • Driver contact details will be sent via SMS one day before your trip.
+                    </div>
+
+                    <table>
+                        <tr>
+                            <th>Company Name</th>
+                            <td colspan="3"><input type="text" value="BSH Home Appliances Pte. Ltd. (Taiwan Branch)"></td>
+                        </tr>
+                        <tr>
+                            <th>Passenger Name</th>
+                            <td><input type="text" placeholder="e.g., Andreas Oswald"></td>
+                            <th>Mobile Number</th>
+                            <td><input type="text" placeholder="e.g., 0972-xxx-xxx"></td>
+                        </tr>
+                    </table>
+
+                    <table>
+                        <tr>
+                            <th colspan="2" class="section-banner">Trip 1 (Drop-off / Pick-up)</th>
+                            <th colspan="2" class="section-banner">Trip 2 (Return / Backup)</th>
+                        </tr>
+                        <tr>
+                            <th>Pick-up Address</th>
+                            <td><input type="text" list="address-options" placeholder="Enter or select location"></td>
+                            <th>Pick-up Address</th>
+                            <td><input type="text" list="address-options" placeholder="Enter or select location"></td>
+                        </tr>
+                        <tr>
+                            <th>Drop-off / Stop</th>
+                            <td><input type="text" list="address-options" placeholder="Destination / Stopover"></td>
+                            <th>Drop-off / Stop</th>
+                            <td><input type="text" list="address-options" placeholder="Destination / Stopover"></td>
+                        </tr>
+                        <tr>
+                            <th>Date / Time</th>
+                            <td>
+                                <input type="date" style="width:48%; display:inline-block;">
+                                <select style="width:48%; display:inline-block;" class="time-picker"></select>
+                            </td>
+                            <th>Date / Time</th>
+                            <td>
+                                <input type="date" style="width:48%; display:inline-block;">
+                                <select style="width:48%; display:inline-block;" class="time-picker"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Flight Number</th>
+                            <td><input type="text" placeholder="e.g., BR871"></td>
+                            <th>Flight Number</th>
+                            <td><input type="text" placeholder="e.g., BR852"></td>
+                        </tr>
+                    </table>
+
+                    <table>
+                        <tr>
+                            <th>Passengers / Luggage</th>
+                            <td>
+                                Pax: <input type="number" value="1" style="width:40px;"> | 
+                                Bags: <input type="number" value="1" style="width:40px;">
+                            </td>
+                            <th>Payment Method</th>
+                            <td>
+                                <select style="width:100%;">
+                                    <option value="簽單" selected>Corporate Billing (BSH Monthly Account)</option>
+                                    <option value="現金">Cash</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Vehicle Type</th>
+                            <td colspan="3">
+                                <label><input type="radio" name="car" checked> Standard Sedan (2000cc)</label> &nbsp;
+                                <label><input type="radio" name="car"> Mercedes-Benz</label> &nbsp;
+                                <label><input type="radio" name="car"> 7-Seater Van</label>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="text-align:center; margin: 15px 0;" class="no-print">
+                        <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF Attachment</button>
+                    </div>
+
+                    <div class="template-box" id="transfer-email-template">
+<button class="copy-btn" onclick="copyToClipboard('transfer-email-template')">Copy Template</button>
+<strong>[Email Template — Send Booking Form to Car Service]</strong>
+To: clida@hotmail.com.tw
+Cc: Sunny
+Subject: [Airport Transfer Booking] BSH Home Appliances - Passenger Name (Date)
+
+Dear Nora,
+
+Could you please arrange the following airport transfer service for BSH? The completed booking form is attached as a PDF.
+
+- Passenger Name:
+- Mobile Number:
+- Pick-up Date &amp; Time:
+- Flight Number:
+
+Please reply to confirm the arrangement. Thank you!
+                    </div>
+                </div>
+            `;
+            populateTimePicker();
+            return;
+        }
+
         resultDiv.innerHTML = `
             <div class="card form-card">
                 <div class="print-only-header">
@@ -801,8 +1238,55 @@
     }
 
     function showDomesticResult(option) {
+        currentView = { type: 'domestic', sub: option };
         var resultDiv = document.getElementById('result-area');
         resultDiv.style.display = 'block';
+
+        if (currentLang === 'en') {
+            if (option === 'derhotel') {
+                resultDiv.innerHTML = `
+                    <div class="card">
+                        <h3>Domestic Travel — DER Hotel Booking Process (Overnight Stay)</h3>
+                        <div class="notice-box">
+                            <strong>📌 Reminder:</strong> Overnight domestic trips require formal approval in <strong>both Power Platform and Apollo (Attendance System)</strong>.<br>
+                            Always log in to the DER Hotel portal using your corporate email (<strong>@bshg.com</strong>).
+                        </div>
+                        <ol>
+                            <li><strong>Book Accommodation:</strong> Reserve your room through the <a href="https://obe.derhotel.com/store/hotel/search/live" target="_blank">DER Hotel Booking Portal</a>.</li>
+                            <li><strong>Company Tax ID (統編):</strong> Enter <strong>53733783</strong> for GUI / invoice issuance.</li>
+                            <li><strong>Contracted Hotels List:</strong> Alternatively, check <span class="path-info">Z:\\General\\EWC\\出差相關\\簽約旅館</span>.</li>
+                            <li><strong>Submit Travel Requests:</strong> Submit your application in both <strong>Power Platform</strong> and <strong>Apollo (Attendance System)</strong>.</li>
+                        </ol>
+                    </div>
+                `;
+            } else if (option === 'special') {
+                resultDiv.innerHTML = `
+                    <div class="card">
+                        <h3>Domestic Travel — Self-Arranged Hotel (Overnight Stay)</h3>
+                        <p>Applicable when DER Hotel has no suitable options, no availability, or rates exceed policy limits.</p>
+                        <ol>
+                            <li>⚠️ <strong>Manager Approval:</strong> Obtain written approval from your line manager via email before booking.</li>
+                            <li>Complete your hotel reservation and retain official receipts/GUI invoices.</li>
+                            <li><strong>Submit Travel Requests:</strong> Submit your application in both <strong>Power Platform</strong> and <strong>Apollo (Attendance System)</strong> with the manager's approval email attached.</li>
+                        </ol>
+                    </div>
+                `;
+            } else if (option === 'oneday') {
+                resultDiv.innerHTML = `
+                    <div class="card">
+                        <h3>Domestic Travel — Same-Day Return Trip (No Overnight Stay)</h3>
+                        <div class="notice-box">
+                            <strong>📌 Policy Note:</strong> No electronic Travel Application is required for same-day domestic trips.
+                        </div>
+                        <ol>
+                            <li><strong>Notify Manager:</strong> Inform your line manager verbally or via email regarding your destination and business purpose prior to departure.</li>
+                            <li><strong>Expense Claim:</strong> Submit your transportation and eligible receipts in the expense system within <strong>14 working days</strong>.</li>
+                        </ol>
+                    </div>
+                `;
+            }
+            return;
+        }
 
         if (option === 'derhotel') {
             resultDiv.innerHTML = `
@@ -849,8 +1333,121 @@
     }
 
     function showOverseasResult(stage) {
+        currentView = { type: 'overseas', sub: stage };
         var resultDiv = document.getElementById('result-area');
         resultDiv.style.display = 'block';
+
+        if (currentLang === 'en') {
+            if (stage === 'hotel') {
+                resultDiv.innerHTML = `
+                    <div class="card">
+                        <h3>🏨 Stage 1: Hotel Booking (BSH Corporate Booking Portal)</h3>
+                        <div class="notice-box">
+                            <strong>📌 Corporate Hotel Policy:</strong><br>
+                            International hotel bookings must be arranged primarily through the <strong>BSH Corporate Booking Portal (DER Hotel)</strong>. Please log in using your corporate email (<strong>@bshg.com</strong>).
+                        </div>
+                        <ol>
+                            <li><strong>Primary Portal:</strong> Search and book via the <a href="https://obe.derhotel.com/store/hotel/search/live" target="_blank">DER Hotel Corporate Portal</a>.</li>
+                            <li><strong>Alternative Channels:</strong> If no suitable rooms are available on DER Hotel, use the <strong>BSH CRC Platform</strong>. For trips to Hong Kong or Nanjing, you may also reach out to local Admin support (Hong Kong contact: <a href="mailto:Alman.Li@bshg.com">Alman.Li@bshg.com</a>).</li>
+                            <li><strong>Keep Confirmation:</strong> Save your booking confirmation PDF to attach to your Travel Application.</li>
+                        </ol>
+                    </div>
+                `;
+            } else if (stage === 'flight') {
+                resultDiv.innerHTML = `
+                    <div class="card">
+                        <h3>✈️ Stage 2: Flight Booking (Grand Travel — Team B | Effective Dec 1, 2026)</h3>
+                        <ul>
+                            <li><strong>Dedicated Desk Email:</strong> <span class="path-info">GTC.TeamB@dragontr.com.tw</span> (Always <strong>cc Sunny</strong> on all inquiries).</li>
+                            <li><strong>Business Hours &amp; Phone:</strong> Mon–Fri 09:00 – 18:00 | TEL: (02) 2714-8889 | FAX: (02) 2718-0733</li>
+                            <li>💡 <strong>Budget Buffer Tip:</strong> Add an estimated <strong>NT$3,000 buffer</strong> when entering airfare budgets on your Travel Application.</li>
+                            <li>💡 <strong>First-Time Traveler Profile (Required Once Only):</strong> If this is your first booking with Grand Travel, please complete the Traveler Profile Form (including your <strong>Cost Center</strong> &amp; <strong>Internal Order</strong> from the Expense System) and attach it as a PDF along with your passport/permit scan:<br>
+                                <button class="sub-action-btn" onclick="selectType('traveler-profile')">📝 Fill Out Traveler Profile Form (First-Time Travelers)</button>
+                            </li>
+                        </ul>
+
+                        <div class="qr-box">
+                            <img src="line-qr.png" alt="Grand Travel Official LINE QR Code">
+                            <div class="qr-caption">📲 Grand Travel — Business Hours Official LINE QR Code</div>
+                        </div>
+
+                        <div class="notice-box">
+                            <strong>📋 Flight Inquiry &amp; Ticketing Workflow:</strong><br>
+                            1. <strong>Request Flight Quotes:</strong> Email Grand Travel (cc Sunny) with your itinerary and <strong>preferred departure window (Morning / Afternoon)</strong>. First-time travelers must attach the Traveler Profile PDF (with Cost Center &amp; Internal Order) and passport/permit copies.<br>
+                            2. <strong>Submit Travel Application:</strong> Once you receive the flight itinerary and quote, submit your Travel Application in <strong>Power Platform</strong> for manager approval (Sunny is automatically notified upon submission).<br>
+                            3. <strong>Ticket Issuance:</strong> After your application is fully approved, <strong>Sunny will instruct Grand Travel to issue the ticket</strong>. E-tickets and electronic receipts will be sent directly to you.
+                        </div>
+
+                        <div class="emergency-card">
+                            <strong>🚨 After-Hours Emergency Service (Strictly for Departures Within 3 Days / 72 Hours):</strong><br>
+                            • <strong>Service Hours:</strong> Mon–Fri 18:00 – 09:00, Weekends &amp; Public Holidays 24/7 (Please contact Team B during regular hours for non-urgent requests).<br>
+                            • <strong>Emergency Hotline:</strong> 0988-157-972 (+886-988-157-972)<br>
+                            • <strong>LINE ID:</strong> <code>@dragontr-emer</code> | <strong>WeChat ID:</strong> <code>grand-corp</code><br>
+                            • ⚠️ <strong>Important Note:</strong> If you do not receive a text reply on LINE / WeChat within <strong>3 minutes</strong>, please place a <strong>direct voice call via LINE or WeChat</strong> for immediate assistance.
+                        </div>
+
+                        <div class="template-box" id="flight-email-template">
+<button class="copy-btn" onclick="copyToClipboard('flight-email-template')">Copy Template</button>
+<strong>[Email Template — Flight Quote Request to Grand Travel]</strong>
+To: GTC.TeamB@dragontr.com.tw
+Cc: Sunny
+Subject: [Flight Quote Request] BSH Home Appliances - Full Name - Destination (Dates)
+
+Dear Grand Travel Team B,
+
+Please assist in quoting flight options for the following business trip:
+- Chinese Name (if applicable):
+- Passport Full Name:
+- Mobile Number:
+- Destination:
+- Travel Dates &amp; Preferred Time Window (Morning / Afternoon):
+- Cost Center (Required for first-time travelers; see Expense System):
+- Internal Order (Required for first-time travelers; see Expense System):
+- Additional Preferences (Cabin class, direct/connecting flights):
+
+(For first-time travelers: Attached is my completed Traveler Profile Form PDF and passport/permit copy.)
+Thank you!
+                        </div>
+
+                        <div class="warning-card" style="margin-top: 14px; margin-bottom: 0;">
+                            <strong>⚠️ Do Not Request Ticket Issuance Directly:</strong><br>
+                            Your Travel Application must be approved first. Once approved, Sunny will coordinate directly with Grand Travel to issue your ticket.<br>
+                            <button class="sub-action-btn" onclick="showOverseasResult('wf')">✈️ Next: Stage 3 — Travel Approval &amp; Ticketing</button>
+                        </div>
+                    </div>
+                `;
+            } else if (stage === 'wf') {
+                resultDiv.innerHTML = `
+                    <div class="card">
+                        <h3>Stage 3: Submit Travel Application &amp; Ticket Issuance</h3>
+                        <ol>
+                            <li><strong>Submit on Power Platform:</strong><br>
+                            Navigate to <code>台灣 Taiwan</code> -&gt; <code>Human Resources</code> -&gt; <code>出差申請表 Travel Application</code>.
+                            </li>
+                            <li><strong>Required Attachments:</strong> Flight quote email from Grand Travel, DER Hotel booking confirmation, invitation letter/agenda, and Travel Security certificate (if applicable).</li>
+                        </ol>
+                        <div class="notice-box">
+                            <strong>✈️ Important Ticketing Note:</strong><br>
+                            The workflow system <strong>automatically notifies Sunny</strong> upon submission. Once approved, you <strong>do not need to forward the approval email</strong>—Sunny will instruct Grand Travel to issue your ticket.
+                        </div>
+                    </div>
+                `;
+            } else if (stage === 'transfer_stage') {
+                showTransferForm();
+            } else if (stage === 'after') {
+                resultDiv.innerHTML = `
+                    <div class="card">
+                        <h3>Stage 5: Post-Trip Expense Reimbursement (Within 14 Working Days)</h3>
+                        <ul>
+                            <li><strong>1. Boarding Passes:</strong> Tape physical boarding passes onto the <strong>left side of an A4 sheet</strong>; for mobile/e-boarding passes, print them on A4 paper and submit to Sunny.</li>
+                            <li><strong>2. Exchange Rate:</strong> Defaults to the Bank of Taiwan cash selling rate on the settlement date. To claim actual credit card rates, attach your credit card statement or bank receipt.</li>
+                            <li><strong>3. Laundry Allowance:</strong> For trips lasting 5 full days or more, reasonable laundry expenses may be claimed starting from the 4th night.</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            return;
+        }
 
         if (stage === 'hotel') {
             resultDiv.innerHTML = `
@@ -966,6 +1563,71 @@
         var resultDiv = document.getElementById('result-area');
         resultDiv.style.display = 'block';
 
+        if (currentLang === 'en') {
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <h3>💰 Section 2.11: International Per Diem Policy &amp; Calculator</h3>
+                    <div class="notice-box">
+                        • <strong>No meal receipts are required</strong> when claiming Daily Allowance.<br>
+                        • <strong>Meal Cutoffs:</strong> Breakfast (-10%, eligible if departing before 08:00), Lunch (-30%, departing before 13:00), Dinner (-30%, returning after 19:00).<br>
+                        • <strong>Daily Incidentals (30%):</strong> First and last travel days each receive half (15%).
+                    </div>
+
+                    <h4>📊 Daily Allowance Rates by Region (TWD)</h4>
+                    <table>
+                        <thead>
+                            <tr><th>Region</th><th>Full Day (100%)</th><th>Incidentals (30%)</th><th>Breakfast (10%)</th><th>Lunch (30%)</th><th>Dinner (30%)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Zone 1 (JP, KR, CN, HK, MO, SG, etc.)</td><td>$1,500</td><td>$450</td><td>$150</td><td>$450</td><td>$450</td></tr>
+                            <tr><td>Zone 2 (DE, US, CA, FR, IT, NZ, AU, etc.)</td><td>$1,800</td><td>$540</td><td>$180</td><td>$540</td><td>$540</td></tr>
+                            <tr><td>Zone 3 (UK, CH, NL, DK, NO, FI, etc.)</td><td>$2,300</td><td>$690</td><td>$230</td><td>$690</td><td>$690</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="calc-box">
+                        <h4 style="margin-top:0; color:var(--dark-grey);">🧮 Interactive Per Diem Calculator</h4>
+                        <div class="calc-row">
+                            <label for="calc-region">1. Destination Zone:</label>
+                            <select id="calc-region" onchange="calculateAllowance()">
+                                <option value="1500">Zone 1 ($1,500/day)</option>
+                                <option value="1800">Zone 2 ($1,800/day)</option>
+                                <option value="2300">Zone 3 ($2,300/day)</option>
+                            </select>
+                        </div>
+
+                        <div class="calc-row">
+                            <label for="calc-days">2. Total Trip Days:</label>
+                            <input type="number" id="calc-days" value="5" min="1" max="60" style="width: 70px;" onchange="calculateAllowance()" oninput="calculateAllowance()">
+                        </div>
+
+                        <div class="calc-row">
+                            <label>3. First &amp; Last Day Timing:</label>
+                            <div>
+                                <input type="checkbox" id="chk-dep-bf" checked onchange="calculateAllowance()"> Depart before 08:00 (Day 1)
+                                <input type="checkbox" id="chk-ret-dn" checked onchange="calculateAllowance()"> Arrive after 19:00 (Final Day)
+                            </div>
+                        </div>
+
+                        <div class="calc-row">
+                            <label>4. Deduct Provided Meals:</label>
+                            <div>
+                                Breakfast <input type="number" id="no-bf" value="0" min="0" style="width: 40px;" onchange="calculateAllowance()"> | 
+                                Lunch <input type="number" id="no-lu" value="0" min="0" style="width: 40px;" onchange="calculateAllowance()"> | 
+                                Dinner <input type="number" id="no-dn" value="0" min="0" style="width: 40px;" onchange="calculateAllowance()">
+                            </div>
+                        </div>
+
+                        <div class="calc-result" id="calc-output">
+                            Estimated Total Per Diem: NT$ 0
+                        </div>
+                    </div>
+                </div>
+            `;
+            calculateAllowance();
+            return;
+        }
+
         resultDiv.innerHTML = `
             <div class="card">
                 <h3>💰 2.11 海外差旅津貼規範與試算表 (Daily Allowance)</h3>
@@ -1067,12 +1729,47 @@
 
         if (total < 0) total = 0;
 
-        document.getElementById('calc-output').innerText = '預估可申請津貼總額：NT$ ' + total.toLocaleString();
+        document.getElementById('calc-output').innerText = I18N[currentLang].allowanceOutputPrefix + total.toLocaleString();
     }
 
     function showVisaResult() {
         var resultDiv = document.getElementById('result-area');
         resultDiv.style.display = 'block';
+
+        if (currentLang === 'en') {
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <h3>🪪 Passport &amp; Mainland Travel Permit Application (via Grand Travel)</h3>
+                    <div class="notice-box">
+                        <strong>🚚 Courier Pick-Up &amp; Submission Procedure:</strong><br>
+                        All passport and travel permit applications are collected by <strong>Grand Travel’s dedicated courier</strong>.<br>
+                        Place all required documents in a sealed envelope labeled <strong>"To Grand Travel Team B / BSH Home Appliances"</strong>, <strong>leave it at the office reception desk</strong>, and send an email to <span class="path-info">GTC.TeamB@dragontr.com.tw</span> (cc Sunny) to arrange pick-up.
+                    </div>
+
+                    <h4>💰 Fee Schedule (Service Fee Included)</h4>
+                    <table>
+                        <thead><tr><th>Document Type</th><th>Application Type</th><th>Fee (TWD)</th><th>Unit</th></tr></thead>
+                        <tbody>
+                            <tr><td rowspan="2"><strong>R.O.C. (Taiwan) Passport</strong></td><td>Standard Application</td><td>$1,700</td><td>Per application</td></tr>
+                            <tr><td>Express / Urgent</td><td>$2,700</td><td>Per application</td></tr>
+                            <tr><td rowspan="3"><strong>Mainland Travel Permit (台胞證)</strong></td><td>Standard Application</td><td>$1,700</td><td>Per application</td></tr>
+                            <tr><td>Express / Urgent</td><td>$2,700</td><td>Per application</td></tr>
+                            <tr><td>Withdrawal (Canceled after submission)</td><td>$400</td><td>Per application</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h4>📋 Required Documents for Mainland Travel Permit</h4>
+                    <ol>
+                        <li>Original R.O.C. Passport (valid for at least 6 months)</li>
+                        <li>One 2-inch color photo taken within the past 6 months (white background, ears and eyebrows visible, no white tops or jewelry)</li>
+                        <li>Original and copy of previous Mainland Travel Permit (required for renewals)</li>
+                        <li>1:1 scale front-and-back copy of Taiwan National ID card</li>
+                        <li>One copy of your BSH business card</li>
+                    </ol>
+                </div>
+            `;
+            return;
+        }
 
         resultDiv.innerHTML = `
             <div class="card">
@@ -1108,6 +1805,7 @@
     }
 
     function resetForm() {
+        currentView = { type: null, sub: null };
         hideAll();
     }
 </script>
